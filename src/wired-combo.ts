@@ -123,7 +123,7 @@ export class WiredCombo extends LitElement {
         <svg></svg>
       </div>
     </div>
-    <wired-card id="card" tabindex="-1" role="listbox" @mousedown="${this.onItemClick}" @touchstart="${this.onItemClick}" style="display: none;">
+    <wired-card id="card" tabindex="-1" role="listbox" @click="${this.onItemClick}" style="display: none;">
       <slot id="slot"></slot>
     </wired-card>
     `;
@@ -143,11 +143,6 @@ export class WiredCombo extends LitElement {
     this.setAttribute('aria-haspopup', 'listbox');
     this.refreshSelection();
 
-    this.addEventListener('blur', () => {
-      if (this.cardShowing) {
-        this.setCardShowing(false);
-      }
-    });
     this.addEventListener('keydown', (event) => {
       switch (event.keyCode) {
         case 37:
