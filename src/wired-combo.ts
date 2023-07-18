@@ -184,6 +184,9 @@ export class WiredCombo extends LitElement {
     if (changed.has('disabled')) {
       this.refreshDisabledState();
     }
+    if (changed.has('selected')) {
+      this.refreshSelection();
+    }
     const svg = this.svg!;
     while (svg.hasChildNodes()) {
       svg.removeChild(svg.lastChild!);
