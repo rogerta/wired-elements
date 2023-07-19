@@ -61,8 +61,8 @@ export class WiredSpinner extends WiredBase {
     }
   }
 
-  updated() {
-    super.updated();
+  updated(changedProperties: Map<string, any>) {
+    super.updated(changedProperties);
     if (this.spinning) {
       this.startSpinner();
     } else {

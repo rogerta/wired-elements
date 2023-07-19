@@ -9,20 +9,6 @@ const EMPTY_IMAGE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAA
 export class WiredImage extends WiredBase {
   @property({ type: Number }) elevation = 1;
   @property({ type: String }) src: string = EMPTY_IMAGE;
-  private resizeObserver?: ResizeObserver;
-  private windowResizeHandler?: EventListenerOrEventListenerObject;
-  private roAttached = false;
-
-  constructor() {
-    super();
-    if ((window as any).ResizeObserver) {
-      this.resizeObserver = new (window as any).ResizeObserver(() => {
-        if (this.svg) {
-          this.wiredRender();
-        }
-      });
-    }
-  }
 
   static get styles(): CSSResultArray {
     return [
@@ -52,37 +38,6 @@ export class WiredImage extends WiredBase {
     <img src="${this.src}">
     <div id="overlay"><svg></svg></div>
     `;
-  }
-
-  updated() {
-    super.updated();
-    this.attachResizeListener();
-  }
-
-  disconnectedCallback() {
-    this.detachResizeListener();
-  }
-
-  private attachResizeListener() {
-    if (!this.roAttached) {
-      if (this.resizeObserver && this.resizeObserver.observe) {
-        this.resizeObserver.observe(this);
-      } else if (!this.windowResizeHandler) {
-        this.windowResizeHandler = () => this.wiredRender();
-        window.addEventListener('resize', this.windowResizeHandler, { passive: true });
-      }
-      this.roAttached = true;
-    }
-  }
-
-  private detachResizeListener() {
-    if (this.resizeObserver && this.resizeObserver.unobserve) {
-      this.resizeObserver.unobserve(this);
-    }
-    if (this.windowResizeHandler) {
-      window.removeEventListener('resize', this.windowResizeHandler);
-    }
-    this.roAttached = false;
   }
 
   protected canvasSize(): Point {

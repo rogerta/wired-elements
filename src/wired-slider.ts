@@ -111,6 +111,7 @@ export class WiredSlider extends WiredBase {
   }
 
   firstUpdated() {
+    super.firstUpdated();
     this.value = this.pendingValue || +(this.getAttribute('value') || this.value || this.min);
     delete this.pendingValue;
   }

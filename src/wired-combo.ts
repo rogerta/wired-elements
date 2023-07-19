@@ -143,6 +143,14 @@ export class WiredCombo extends LitElement {
     this.setAttribute('aria-haspopup', 'listbox');
     this.refreshSelection();
 
+    this.addEventListener('blur', (event) => {
+      // If the user clicked outside the combo, hide the card if showing.
+      const related = event.relatedTarget as Element;
+      const combo = related?.closest('wired-combo');
+      if (combo !== this && this.cardShowing) {
+        this.setCardShowing(false);
+      }
+    });
     this.addEventListener('keydown', (event) => {
       switch (event.keyCode) {
         case 37:
@@ -282,7 +290,6 @@ export class WiredCombo extends LitElement {
   private onItemClick(event: CustomEvent) {
     event.stopPropagation();
     this.selected = (event.target as WiredComboItem).value;
-    this.refreshSelection();
     this.fireSelected();
     setTimeout(() => {
       this.setCardShowing(false);
@@ -311,7 +318,6 @@ export class WiredCombo extends LitElement {
         index--;
       }
       this.selected = list[index].value || '';
-      this.refreshSelection();
       this.fireSelected();
     }
   }
@@ -334,7 +340,6 @@ export class WiredCombo extends LitElement {
         index++;
       }
       this.selected = list[index].value || '';
-      this.refreshSelection();
       this.fireSelected();
     }
   }

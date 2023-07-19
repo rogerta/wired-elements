@@ -1,26 +1,12 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
 import { rectangle, line, hachureFill, } from './wired-lib';
-import { css, TemplateResult, html, PropertyValues } from 'lit';
+import { css, TemplateResult, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('wired-card')
 export class WiredCard extends WiredBase {
   @property({ type: Number }) elevation = 1;
   @property({ type: String }) fill?: string;
-  private resizeObserver?: ResizeObserver;
-  private windowResizeHandler?: EventListenerOrEventListenerObject;
-  private roAttached = false;
-
-  constructor() {
-    super();
-    if ((window as any).ResizeObserver) {
-      this.resizeObserver = new (window as any).ResizeObserver(() => {
-        if (this.svg) {
-          this.wiredRender();
-        }
-      });
-    }
-  }
 
   static get styles() {
     return [
@@ -49,38 +35,6 @@ export class WiredCard extends WiredBase {
       <slot @slotchange="${this.wiredRender}"></slot>
     </div>
     `;
-  }
-
-  updated(changed: PropertyValues) {
-    const force = changed.has('fill');
-    this.wiredRender(force);
-    this.attachResizeListener();
-  }
-
-  disconnectedCallback() {
-    this.detachResizeListener();
-  }
-
-  private attachResizeListener() {
-    if (!this.roAttached) {
-      if (this.resizeObserver) {
-        this.resizeObserver.observe(this);
-      } else if (!this.windowResizeHandler) {
-        this.windowResizeHandler = () => this.wiredRender();
-        window.addEventListener('resize', this.windowResizeHandler, { passive: true });
-      }
-      this.roAttached = true;
-    }
-  }
-
-  private detachResizeListener() {
-    if (this.resizeObserver) {
-      this.resizeObserver.unobserve(this);
-    }
-    if (this.windowResizeHandler) {
-      window.removeEventListener('resize', this.windowResizeHandler);
-    }
-    this.roAttached = false;
   }
 
   protected canvasSize(): Point {

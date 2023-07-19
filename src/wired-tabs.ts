@@ -1,5 +1,5 @@
 import { BaseCSS } from './wired-base';
-import { css, TemplateResult, html, CSSResultArray, LitElement } from 'lit';
+import { css, TemplateResult, html, CSSResultArray, LitElement, PropertyValues } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
 interface WiredTabItem extends HTMLElement {
@@ -89,7 +89,8 @@ export class WiredTabs extends LitElement {
     }
   }
 
-  firstUpdated() {
+  firstUpdated(changed: PropertyValues) {
+    super.firstUpdated(changed);
     this.mapPages();
     this.tabIndex = +((this.getAttribute('tabindex') || 0));
     this.addEventListener('keydown', (event) => {

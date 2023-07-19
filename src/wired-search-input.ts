@@ -120,6 +120,7 @@ export class WiredSearchInput extends WiredBase {
   }
 
   firstUpdated() {
+    super.firstUpdated();
     this.value = this.pendingValue || this.value || this.getAttribute('value') || '';
     delete this.pendingValue;
   }

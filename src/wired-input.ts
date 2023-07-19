@@ -22,21 +22,8 @@ export class WiredInput extends WiredBase {
   @property({ type: Number }) maxlength?: number;
   @property({ type: Number }) size?: number;
 
-  @query('input') private textInput?: HTMLInputElement;
+  @query('input') private textInput!: HTMLInputElement;
   private pendingValue?: string;
-  private resizeObserver?: ResizeObserver;
-  private roAttached = false;
-
-  constructor() {
-    super();
-    if ((window as any).ResizeObserver) {
-      this.resizeObserver = new (window as any).ResizeObserver(() => {
-        if (this.svg) {
-          this.wiredRender(true);
-        }
-      });
-    }
-  }
 
   static get styles(): CSSResultArray {
     return [
@@ -111,6 +98,7 @@ export class WiredInput extends WiredBase {
   }
 
   firstUpdated() {
+    super.firstUpdated();
     this.value = this.pendingValue || this.value || this.getAttribute('value') || '';
     delete this.pendingValue;
   }
@@ -135,30 +123,5 @@ export class WiredInput extends WiredBase {
     } else {
       super.focus();
     }
-  }
-
-  updated() {
-    super.updated();
-    this.attachResizeListener();
-  }
-
-  disconnectedCallback() {
-    this.detachResizeListener();
-  }
-
-  private attachResizeListener() {
-    if (!this.roAttached) {
-      if (this.textInput && this.resizeObserver) {
-        this.resizeObserver.observe(this.textInput);
-      }
-      this.roAttached = true;
-    }
-  }
-
-  private detachResizeListener() {
-    if (this.textInput && this.resizeObserver) {
-      this.resizeObserver.unobserve(this.textInput);
-    }
-    this.roAttached = false;
   }
 }

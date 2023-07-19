@@ -8,20 +8,7 @@ export class WiredButton extends WiredBase {
   @property({ type: Number }) elevation = 1;
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  @query('button') private button?: HTMLButtonElement;
-  private ro?: ResizeObserver;
-  private roAttached = false;
-
-  constructor() {
-    super();
-    if ((window as any).ResizeObserver) {
-      this.ro = new (window as any).ResizeObserver(() => {
-        if (this.svg) {
-          this.wiredRender(true);
-        }
-      });
-    }
-  }
+  @query('button') private button!: HTMLButtonElement;
 
   static get styles(): CSSResultArray {
     return [
@@ -111,30 +98,5 @@ export class WiredButton extends WiredBase {
       (line(svg, (i * 2), s.height + (i * 2), s.width + (i * 2), s.height + (i * 2), this.seed)).style.opacity = `${(75 - (i * 10)) / 100}`;
       (line(svg, s.width + (i * 2), s.height + (i * 2), s.width + (i * 2), i * 2, this.seed)).style.opacity = `${(75 - (i * 10)) / 100}`;
     }
-  }
-
-  updated() {
-    super.updated();
-    if (!this.roAttached) {
-      this.attachResizeListener();
-    }
-  }
-
-  disconnectedCallback() {
-    this.detachResizeListener();
-  }
-
-  private attachResizeListener() {
-    if (this.button && this.ro) {
-      this.ro.observe(this.button);
-      this.roAttached = true;
-    }
-  }
-
-  private detachResizeListener() {
-    if (this.button && this.ro) {
-      this.ro.unobserve(this.button);
-    }
-    this.roAttached = false;
   }
 }

@@ -7,10 +7,6 @@ import { customElement, property } from 'lit/decorators.js';
 export class WiredDivider extends WiredBase {
   @property({ type: Number }) elevation = 1;
 
-  private resizeObserver?: ResizeObserver;
-  private windowResizeHandler?: EventListenerOrEventListenerObject;
-  private roAttached = false;
-
   static get styles(): CSSResultArray {
     return [
       BaseCSS,
@@ -38,36 +34,5 @@ export class WiredDivider extends WiredBase {
     for (let i = 0; i < elev; i++) {
       line(svg, 0, (i * 6) + 3, size[0], (i * 6) + 3, this.seed);
     }
-  }
-
-  updated() {
-    super.updated();
-    this.attachResizeListener();
-  }
-
-  disconnectedCallback() {
-    this.detachResizeListener();
-  }
-
-  private attachResizeListener() {
-    if (!this.roAttached) {
-      if (this.resizeObserver) {
-        this.resizeObserver.observe(this);
-      } else if (!this.windowResizeHandler) {
-        this.windowResizeHandler = () => this.wiredRender();
-        window.addEventListener('resize', this.windowResizeHandler, { passive: true });
-      }
-      this.roAttached = true;
-    }
-  }
-
-  private detachResizeListener() {
-    if (this.resizeObserver) {
-      this.resizeObserver.unobserve(this);
-    }
-    if (this.windowResizeHandler) {
-      window.removeEventListener('resize', this.windowResizeHandler);
-    }
-    this.roAttached = false;
   }
 }

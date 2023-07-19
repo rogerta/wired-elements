@@ -77,8 +77,7 @@ export class WiredProgress extends WiredBase {
     }
   }
 
-  wiredRender(force = false) {
-    super.wiredRender(force);
+  updated() {
     this.refreshProgressFill();
   }
 

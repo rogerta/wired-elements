@@ -1,5 +1,5 @@
 import { fireEvent } from './wired-base';
-import { css, TemplateResult, html, LitElement } from 'lit';
+import { css, TemplateResult, html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 interface RadioItem extends HTMLElement {
@@ -56,7 +56,8 @@ export class WiredRadioGroup extends LitElement {
     this.requestUpdate();
   }
 
-  firstUpdated() {
+  firstUpdated(changed: PropertyValues) {
+    super.firstUpdated(changed);
     this.setAttribute('role', 'radiogroup');
     this.tabIndex = +(this.getAttribute('tabindex') || 0);
     this.addEventListener('keydown', (event) => {

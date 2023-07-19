@@ -1,6 +1,6 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
 import { ellipse, svgNode } from './wired-lib';
-import { css, TemplateResult, html, CSSResultArray } from 'lit';
+import { css, TemplateResult, html, CSSResultArray, PropertyValues } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
 @customElement('wired-radio')
@@ -69,8 +69,8 @@ export class WiredRadio extends WiredBase {
     }
   }
 
-  wiredRender(force = false) {
-    super.wiredRender(force);
+  updated(changed: PropertyValues) {
+    super.updated(changed);
     this.refreshCheckVisibility();
   }
 

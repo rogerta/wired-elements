@@ -1,6 +1,6 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
 import { rectangle } from './wired-lib';
-import { css, TemplateResult, html, CSSResultArray } from 'lit';
+import { css, TemplateResult, html, CSSResultArray, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 interface WiredComboItem extends HTMLElement {
@@ -57,6 +57,7 @@ export class WiredListbox extends WiredBase {
   }
 
   firstUpdated() {
+    super.firstUpdated();
     this.setAttribute('role', 'listbox');
     this.tabIndex = +((this.getAttribute('tabindex') || 0));
     this.refreshSelection();
@@ -77,8 +78,8 @@ export class WiredListbox extends WiredBase {
     });
   }
 
-  updated() {
-    super.updated();
+  updated(changed: PropertyValues) {
+    super.updated(changed);
     if (this.horizontal) {
       this.classList.add('wired-horizontal');
     } else {

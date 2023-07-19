@@ -9,19 +9,6 @@ import './wired-item.js';
 export class WiredTab extends WiredBase {
   @property({ type: String }) name = '';
   @property({ type: String }) label = '';
-  private resizeObserver?: ResizeObserver;
-  private windowResizeHandler?: EventListenerOrEventListenerObject;
-
-  constructor() {
-    super();
-    if ((window as any).ResizeObserver) {
-      this.resizeObserver = new (window as any).ResizeObserver(() => {
-        if (this.svg) {
-          this.wiredRender();
-        }
-      });
-    }
-  }
 
   static get styles(): CSSResultArray {
     return [
@@ -43,33 +30,6 @@ export class WiredTab extends WiredBase {
     </div>
     <div id="overlay"><svg></svg></div>
     `;
-  }
-
-  updated() {
-    super.updated();
-    this.attachResizeListener();
-  }
-
-  disconnectedCallback() {
-    this.detachResizeListener();
-  }
-
-  private attachResizeListener() {
-    if (this.resizeObserver && this.resizeObserver.observe) {
-      this.resizeObserver.observe(this);
-    } else if (!this.windowResizeHandler) {
-      this.windowResizeHandler = () => this.wiredRender();
-      window.addEventListener('resize', this.windowResizeHandler, { passive: true });
-    }
-  }
-
-  private detachResizeListener() {
-    if (this.resizeObserver && this.resizeObserver.unobserve) {
-      this.resizeObserver.unobserve(this);
-    }
-    if (this.windowResizeHandler) {
-      window.removeEventListener('resize', this.windowResizeHandler);
-    }
   }
 
   protected canvasSize(): Point {

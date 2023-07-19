@@ -251,7 +251,8 @@ export class WiredCalendar extends LitElement {
     `;
   }
 
-  firstUpdated() {
+  firstUpdated(changed: PropertyValues) {
+    super.firstUpdated(changed);
     this.setAttribute('role', 'dialog');
   }
 

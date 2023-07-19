@@ -1,4 +1,4 @@
-import { LitElement, css, PropertyValues } from 'lit';
+import { LitElement, css } from 'lit';
 import { query } from 'lit/decorators.js';
 
 export type Point = [number, number];
@@ -35,10 +35,17 @@ export abstract class WiredBase extends LitElement {
   @query('svg') protected svg?: SVGSVGElement;
 
   protected lastSize: Point = [0, 0];
-  protected seed = Math.floor(Math.random() * 2 ** 31);
+  protected seed = randomSeed();
+  protected ro = new ResizeObserver(_ => this.wiredRender());
 
-  updated(_changed?: PropertyValues) {
-    this.wiredRender();
+  disconnectedCallback() {
+    this.ro.disconnect();
+    super.disconnectedCallback();
+  }
+
+  firstUpdated() {
+    this.wiredRender(true);
+    this.ro.observe(this);
   }
 
   wiredRender(force = false) {
