@@ -1,4 +1,4 @@
-import { BaseCSS } from './wired-base';
+import { BaseCSS, fireEvent } from './wired-base';
 import { css, TemplateResult, html, CSSResultArray, LitElement, PropertyValues } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
@@ -28,7 +28,7 @@ export class WiredTabs extends LitElement {
         ::slotted(.hidden) {
           display: none !important;
         }
-    
+
         :host ::slotted(.hidden) {
           display: none !important;
         }
@@ -49,13 +49,20 @@ export class WiredTabs extends LitElement {
     <div id="bar">
       ${this.pages.map((p) => html`
       <wired-item role="tab" .value="${p.name}" .selected="${p.name === this.selected}" ?aria-selected="${p.name === this.selected}"
-        @click="${() => this.selected = p.name}">${p.label || p.name}</wired-item>
+        @click="${this.onItemClicked(p)}">${p.label || p.name}</wired-item>
       `)}
     </div>
     <div>
       <slot @slotchange="${this.mapPages}"></slot>
     </div>
     `;
+  }
+
+  private onItemClicked(page: WiredTabItem) {
+    return () => {
+      this.selected = page.name;
+      fireEvent(this, 'tabchanged', this.selected);
+    }
   }
 
   private mapPages() {
