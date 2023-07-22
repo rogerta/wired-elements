@@ -38,14 +38,9 @@ export abstract class WiredBase extends LitElement {
   protected seed = randomSeed();
   protected ro = new ResizeObserver(_ => this.wiredRender());
 
-  disconnectedCallback() {
-    this.ro.disconnect();
-    super.disconnectedCallback();
-  }
-
   firstUpdated() {
-    this.wiredRender(true);
     this.ro.observe(this);
+    this.wiredRender(true);
   }
 
   wiredRender(force = false) {
