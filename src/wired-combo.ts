@@ -1,15 +1,11 @@
-import { css, TemplateResult, html, PropertyValues, LitElement } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { css, TemplateResult, html, PropertyValues } from 'lit';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { rectangle, polygon } from './wired-lib';
 import { WiredBase, BaseCSS, Point } from './wired-base';
+import { WiredItem } from './wired-item';
 
 import './wired-card';
 import './wired-item';
-
-interface WiredComboItem extends HTMLElement {
-  value: string;
-  selected: boolean;
-}
 
 interface ComboValue {
   value: string;
@@ -22,13 +18,16 @@ export class WiredCombo extends WiredBase {
   @property({ type: String, reflect: true }) selected?: string;
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  @query('#card') private card!: HTMLDivElement;
+  @query('slot') private cardSlot!: HTMLSlotElement;
   @query('#textPanel') private textPanel!: HTMLDivElement;
   @query('#dropPanel') private dropPanel!: HTMLDivElement;
 
-  private cardShowing = false;
-  private itemNodes: WiredComboItem[] = [];
-  private lastSelectedItem?: WiredComboItem;
+  @state() private cardShowing = false;
+
+  get itemNodes() {
+    return (this.cardSlot.assignedNodes() as HTMLElement[])
+        .filter(n => n.tagName === 'WIRED-ITEM') as WiredItem[];
+  }
 
   static get styles() {
     return [
@@ -61,7 +60,11 @@ export class WiredCombo extends WiredBase {
         display: inline-block;
         vertical-align: top
       }
-    
+
+      .hidden {
+        display: none;
+      }
+
       #textPanel {
         min-width: 90px;
         min-height: 18px;
@@ -100,7 +103,8 @@ export class WiredCombo extends WiredBase {
       <div id="overlay"><svg></svg></div>
     </div>
     <wired-card id="card" tabindex="-1" role="listbox"
-        @click="${this.onItemClick}" style="display: none;">
+        class="${this.cardShowing ? '' : 'hidden'}"
+        @click="${this.onItemClick}">
       <slot id="slot"></slot>
     </wired-card>
     `;
@@ -121,8 +125,8 @@ export class WiredCombo extends WiredBase {
       // If the user clicked outside the combo, hide the card if showing.
       const related = event.relatedTarget as Element;
       const combo = related?.closest('wired-combo');
-      if (combo !== this && this.cardShowing) {
-        this.setCardShowing(false);
+      if (combo !== this) {
+        this.cardShowing = false;
       }
     });
     this.addEventListener('keydown', (event) => {
@@ -130,28 +134,24 @@ export class WiredCombo extends WiredBase {
         case 37:
         case 38:
           event.preventDefault();
-          this.selectPrevious();
+          this.selectOther(-1);
           break;
         case 39:
         case 40:
           event.preventDefault();
-          this.selectNext();
+          this.selectOther(1);
           break;
         case 27:
           event.preventDefault();
-          if (this.cardShowing) {
-            this.setCardShowing(false);
-          }
+          this.cardShowing = false;
           break;
         case 13:
           event.preventDefault();
-          this.setCardShowing(!this.cardShowing);
+          this.cardShowing = !this.cardShowing;
           break;
         case 32:
           event.preventDefault();
-          if (!this.cardShowing) {
-            this.setCardShowing(true);
-          }
+          this.cardShowing = true;
           break;
       }
     });
@@ -164,6 +164,13 @@ export class WiredCombo extends WiredBase {
     if (changed.has('selected')) {
       this.refreshSelection();
     }
+    if (changed.has('cardShowing')) {
+      this.setAttribute('aria-expanded', `${this.cardShowing}`);
+    }
+
+    this.itemNodes.forEach(n => {
+      n.setAttribute('role', 'option');
+    });
   }
 
   protected canvasSize(): Point {
@@ -186,140 +193,49 @@ export class WiredCombo extends WiredBase {
     poly.style.fill = 'currentColor';
     poly.style.pointerEvents = this.disabled ? 'none' : 'auto';
     poly.style.cursor = 'pointer';
-
-    // aria
-    this.setAttribute('aria-expanded', `${this.cardShowing}`);
-    if (!this.itemNodes.length) {
-      this.itemNodes = [];
-      const nodes = (this.shadowRoot!.getElementById('slot') as HTMLSlotElement).assignedNodes();
-      if (nodes && nodes.length) {
-        for (let i = 0; i < nodes.length; i++) {
-          const element = nodes[i] as WiredComboItem;
-          if (element.tagName === 'WIRED-ITEM') {
-            element.setAttribute('role', 'option');
-            this.itemNodes.push(element);
-          }
-        }
-      }
-    }
   }
 
   private refreshSelection() {
-    if (this.lastSelectedItem) {
-      this.lastSelectedItem.selected = false;
-      this.lastSelectedItem.removeAttribute('aria-selected');
-    }
-    const slot = this.shadowRoot!.getElementById('slot') as HTMLSlotElement;
-    const nodes = slot.assignedNodes();
-    if (nodes) {
-      let selectedItem: WiredComboItem | null = null;
-      for (let i = 0; i < nodes.length; i++) {
-        const element = nodes[i] as WiredComboItem;
-        if (element.tagName === 'WIRED-ITEM') {
-          const value = element.value || element.getAttribute('value') || '';
-          if (this.selected && (value === this.selected)) {
-            selectedItem = element;
-            break;
-          }
-        }
-      }
-      this.lastSelectedItem = selectedItem || undefined;
-      if (this.lastSelectedItem) {
-        this.lastSelectedItem.selected = true;
-        this.lastSelectedItem.setAttribute('aria-selected', 'true');
-      }
-      if (selectedItem) {
+    this.value = undefined;
+    this.itemNodes.forEach(n => {
+      n.selected = n.value === this.selected;
+      if (n.selected) {
+        n.setAttribute('aria-selected', 'true');
         this.value = {
-          value: selectedItem.value || '',
-          text: selectedItem.textContent || ''
+          value: this.selected || '',
+          text: n.textContent || ''
         };
       } else {
-        this.value = undefined;
+        n.removeAttribute('aria-selected');
       }
-    }
-  }
-
-  private setCardShowing(showing: boolean) {
-    if (this.card) {
-      this.cardShowing = showing;
-      this.card.style.display = showing ? '' : 'none';
-      if (showing) {
-        setTimeout(() => {
-          // TODO: relayout card?
-          const nodes = (this.shadowRoot!.getElementById('slot') as HTMLSlotElement).assignedNodes().filter((d) => {
-            return d.nodeType === Node.ELEMENT_NODE;
-          });
-          nodes.forEach((n) => {
-            const e = n as LitElement;
-            if (e.requestUpdate) {
-              e.requestUpdate();
-            }
-          });
-        }, 10);
-      }
-      this.setAttribute('aria-expanded', `${this.cardShowing}`);
-    }
+    });
   }
 
   private onItemClick(event: CustomEvent) {
     event.stopPropagation();
-    this.selected = (event.target as WiredComboItem).value;
+    this.selected = (event.target as WiredItem).value;
     this.fireSelected();
-    setTimeout(() => {
-      this.setCardShowing(false);
-    });
+    this.cardShowing = false;
   }
 
   private fireSelected() {
     this.fire('selected', { selected: this.selected });
   }
 
-  private selectPrevious() {
-    const list = this.itemNodes;
-    if (list.length) {
-      let index = -1;
-      for (let i = 0; i < list.length; i++) {
-        if (list[i] === this.lastSelectedItem) {
-          index = i;
-          break;
-        }
-      }
-      if (index < 0) {
-        index = 0;
-      } else if (index === 0) {
-        index = list.length - 1;
-      } else {
-        index--;
-      }
-      this.selected = list[index].value || '';
-      this.fireSelected();
+  private selectOther(inc: number) {
+    const nodes = this.itemNodes;
+    if (nodes.length === 0) {
+      return;
     }
-  }
 
-  private selectNext() {
-    const list = this.itemNodes;
-    if (list.length) {
-      let index = -1;
-      for (let i = 0; i < list.length; i++) {
-        if (list[i] === this.lastSelectedItem) {
-          index = i;
-          break;
-        }
-      }
-      if (index < 0) {
-        index = 0;
-      } else if (index >= (list.length - 1)) {
-        index = 0;
-      } else {
-        index++;
-      }
-      this.selected = list[index].value || '';
-      this.fireSelected();
-    }
+    let index = nodes.findIndex(n => n.value === this.selected);
+    index = (index + inc) % nodes.length;
+    this.selected = nodes[index].value;
+    this.fireSelected();
   }
 
   private onCombo(event: Event) {
     event.stopPropagation();
-    this.setCardShowing(!this.cardShowing);
+    this.cardShowing = !this.cardShowing;
   }
 }
