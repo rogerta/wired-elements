@@ -32,7 +32,7 @@ export class WiredCard extends WiredBase {
     return html`
     <div id="overlay"><svg></svg></div>
     <div part="inner" style="position: relative;">
-      <slot @slotchange="${this.wiredRender}"></slot>
+      <slot></slot>
     </div>
     `;
   }
