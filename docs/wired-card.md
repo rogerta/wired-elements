@@ -45,5 +45,9 @@ Use it in your HTML:
 
 **requestUpdate()** - When dynamically adding content to the card, call this method to recompute the boundaries of the card. 
 
+## Parts
+
+**inner** - The inner container that hold the slotted elements.
+
 ## License
 [MIT License](https://github.com/rough-stuff/wired-elements/blob/master/LICENSE) (c) [Preet Shihn](https://twitter.com/preetster)
