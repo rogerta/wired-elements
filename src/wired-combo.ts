@@ -83,8 +83,6 @@ export class WiredCombo extends WiredBase {
         z-index: 1;
         box-shadow: 1px 5px 15px -6px rgba(0, 0, 0, 0.8);
         padding: 8px;
-        overflow: clip scroll;
-        max-height: 40vh;
       }
   
       ::slotted(wired-item) {
@@ -102,7 +100,7 @@ export class WiredCombo extends WiredBase {
       <div id="dropPanel" class="inline"></div>
       <div id="overlay"><svg></svg></div>
     </div>
-    <wired-card id="card" tabindex="-1" role="listbox"
+    <wired-card exportparts="inner: card-inner" id="card" tabindex="-1" role="listbox"
         class="${this.cardShowing ? '' : 'hidden'}"
         @click="${this.onItemClick}">
       <slot id="slot"></slot>

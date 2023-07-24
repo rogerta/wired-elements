@@ -47,5 +47,10 @@ Use it in your HTML:
 ## Events
 **selected** event fired when an item is selected by the user. 
 
+## Parts
+
+**card-inner** - The inner container of the wired-card element used to hold
+the drop down menu of the combobox.
+
 ## License
 [MIT License](https://github.com/rough-stuff/wired-elements/blob/master/LICENSE) (c) [Preet Shihn](https://twitter.com/preetster)
