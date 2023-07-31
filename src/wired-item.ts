@@ -85,7 +85,7 @@ export class WiredItem extends WiredBase {
     return html`
     <button class="${this.selected ? 'selected' : ''}">
       <div id="overlay"><svg></svg></div>
-      <span><slot></slot></span>
+      <span part="inner"><slot></slot></span>
     </button>`;
   }
 
