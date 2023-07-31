@@ -68,10 +68,8 @@ export class WiredFab extends WiredBase {
   render(): TemplateResult {
     return html`
     <button ?disabled="${this.disabled}">
-      <div id="overlay">
-        <svg></svg>
-      </div>
-      <slot @slotchange="${this.wiredRender}"></slot>
+      <div id="overlay"><svg></svg></div>
+      <slot></slot>
     </button>
     `;
   }
