@@ -15,6 +15,7 @@ export class WiredInput extends WiredBase {
   @property({ type: String }) autocomplete = '';
   @property({ type: String }) autocapitalize = '';
   @property({ type: String }) autocorrect = '';
+  @property({ type: String }) value = '';
   @property({ type: Boolean }) required = false;
   @property({ type: Boolean }) autofocus = false;
   @property({ type: Boolean }) readonly = false;
@@ -23,7 +24,6 @@ export class WiredInput extends WiredBase {
   @property({ type: Number }) size?: number;
 
   @query('input') private textInput!: HTMLInputElement;
-  private pendingValue?: string;
 
   static get styles(): CSSResultArray {
     return [
@@ -69,8 +69,8 @@ export class WiredInput extends WiredBase {
     <input name="${this.name}" type="${this.type}" placeholder="${this.placeholder}" ?disabled="${this.disabled}"
       ?required="${this.required}" autocomplete="${this.autocomplete}" ?autofocus="${this.autofocus}" minlength="${this.minlength}"
       maxlength="${this.maxlength}" min="${this.min}" max="${this.max}" step="${this.step}" ?readonly="${this.readonly}"
-      size="${this.size}" autocapitalize="${this.autocapitalize}" autocorrect="${this.autocorrect}" 
-      @change="${this.refire}" @input="${this.refire}">
+      size="${this.size}" autocapitalize="${this.autocapitalize}" autocorrect="${this.autocorrect}" value="${this.value}"
+      @change="${this.changed}" @input="${this.changed}">
     <div id="overlay">
       <svg></svg>
     </div>
@@ -79,28 +79,6 @@ export class WiredInput extends WiredBase {
 
   get input(): HTMLInputElement | undefined {
     return this.textInput;
-  }
-
-  get value(): string {
-    const input = this.input;
-    return (input && input.value) || '';
-  }
-
-  set value(v: string) {
-    if (this.shadowRoot) {
-      const input = this.input;
-      if (input) {
-        input.value = v;
-        return;
-      }
-    }
-    this.pendingValue = v;
-  }
-
-  firstUpdated() {
-    super.firstUpdated();
-    this.value = this.pendingValue || this.value || this.getAttribute('value') || '';
-    delete this.pendingValue;
   }
 
   protected canvasSize(): Point {
@@ -112,9 +90,8 @@ export class WiredInput extends WiredBase {
     rectangle(svg, 2, 2, size[0] - 2, size[1] - 2, this.seed);
   }
 
-  private refire(event: Event) {
-    event.stopPropagation();
-    this.fire(event.type, { sourceEvent: event });
+  private changed(_: Event) {
+    this.value = this.textInput.value;
   }
 
   focus() {

@@ -67,12 +67,8 @@ export class WiredCheckbox extends WiredBase {
     }
   }
 
-  wiredRender(force = false) {
-    super.wiredRender(force);
-    this.refreshCheckVisibility();
-  }
-
   render(): TemplateResult {
+    this.refreshCheckVisibility();
     return html`
     <label id="container" class="${this.focused ? 'focused' : ''}">
       <input type="checkbox" .checked="${this.checked}" ?disabled="${this.disabled}" 
@@ -87,7 +83,6 @@ export class WiredCheckbox extends WiredBase {
 
   private onChange() {
     this.checked = this.input!.checked;
-    this.refreshCheckVisibility();
     this.fire('change', { checked: this.checked });
   }
 
@@ -101,6 +96,7 @@ export class WiredCheckbox extends WiredBase {
     svg.appendChild(this.svgCheck);
     line(this.svgCheck, size[0] * 0.3, size[1] * 0.4, size[0] * 0.5, size[1] * 0.7, this.seed);
     line(this.svgCheck, size[0] * 0.5, size[1] * 0.7, size[0] + 5, -5, this.seed);
+    this.refreshCheckVisibility();
   }
 
   private refreshCheckVisibility() {
