@@ -25,7 +25,7 @@ export class WiredTab extends WiredBase {
 
   render(): TemplateResult {
     return html`
-    <div>
+    <div part="inner">
       <slot @slotchange="${this.wiredRender}"></slot>
     </div>
     <div id="overlay"><svg></svg></div>

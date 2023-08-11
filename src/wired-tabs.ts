@@ -52,7 +52,7 @@ export class WiredTabs extends LitElement {
         @click="${this.onItemClicked(p)}">${p.label || p.name}</wired-item>
       `)}
     </div>
-    <div>
+    <div part="inner">
       <slot @slotchange="${this.mapPages}"></slot>
     </div>
     `;
