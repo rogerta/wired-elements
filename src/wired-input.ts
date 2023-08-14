@@ -69,7 +69,7 @@ export class WiredInput extends WiredBase {
     <input name="${this.name}" type="${this.type}" placeholder="${this.placeholder}" ?disabled="${this.disabled}"
       ?required="${this.required}" autocomplete="${this.autocomplete}" ?autofocus="${this.autofocus}" minlength="${this.minlength}"
       maxlength="${this.maxlength}" min="${this.min}" max="${this.max}" step="${this.step}" ?readonly="${this.readonly}"
-      size="${this.size}" autocapitalize="${this.autocapitalize}" autocorrect="${this.autocorrect}" value="${this.value}"
+      size="${this.size}" autocapitalize="${this.autocapitalize}" autocorrect="${this.autocorrect}" .value="${this.value}"
       @change="${this.changed}" @input="${this.changed}">
     <div id="overlay">
       <svg></svg>
