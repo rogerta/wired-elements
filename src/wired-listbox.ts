@@ -49,7 +49,9 @@ export class WiredListbox extends WiredBase {
 
   render(): TemplateResult {
     return html`
-    <slot id="slot" @slotchange="${() => this.requestUpdate()}"></slot>
+    <div part="inner" style="position: relative;">
+      <slot id="slot" @slotchange="${() => this.requestUpdate()}"></slot>
+    </div>
     <div id="overlay">
       <svg id="svg"></svg>
     </div>
