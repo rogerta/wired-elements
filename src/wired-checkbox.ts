@@ -82,7 +82,7 @@ export class WiredCheckbox extends WiredBase {
   }
 
   private onChange() {
-    this.checked = this.input!.checked;
+    this.checked = !this.checked;
     this.fire('change', { checked: this.checked });
   }
 
