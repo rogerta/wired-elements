@@ -1,4 +1,8 @@
 # wired-elements 👉 [wiredjs.com](https://wiredjs.com)
+
+| This is a fork of the original project at https://www.npmjs.com/package/wired-elements |
+| :--- |
+
 Wired Elements is a series of basic UI Elements that have a hand drawn look. These can be used for wireframes, mockups, or just the fun hand-drawn look. 
 
 ![alt Preview](https://i.imgur.com/qttPllg.png)
