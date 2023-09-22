@@ -22,6 +22,7 @@ export class WiredInput extends WiredBase {
   @property({ type: Number }) minlength?: number;
   @property({ type: Number }) maxlength?: number;
   @property({ type: Number }) size?: number;
+  @property({ type: Boolean }) hidespinbox = false;
 
   @query('input') private textInput!: HTMLInputElement;
 
@@ -60,17 +61,24 @@ export class WiredInput extends WiredBase {
         input:focus + div path {
           stroke-width: 1.5;
         }
+        input.hidespinbox::-webkit-outer-spin-button,
+        input.hidespinbox::-webkit-inner-spin-button {
+          -moz-appearance: textfield;
+          -webkit-appearance: none;
+          margin: 0;
+        }
       `
     ];
   }
 
   render(): TemplateResult {
+    const cls = this.hidespinbox ? 'hidespinbox' : ''
     return html`
-    <input name="${this.name}" type="${this.type}" placeholder="${this.placeholder}" ?disabled="${this.disabled}"
+    <input part="inner" name="${this.name}" type="${this.type}" placeholder="${this.placeholder}" ?disabled="${this.disabled}"
       ?required="${this.required}" autocomplete="${this.autocomplete}" ?autofocus="${this.autofocus}" minlength="${this.minlength}"
       maxlength="${this.maxlength}" min="${this.min}" max="${this.max}" step="${this.step}" ?readonly="${this.readonly}"
       size="${this.size}" autocapitalize="${this.autocapitalize}" autocorrect="${this.autocorrect}" .value="${this.value}"
-      @change="${this.changed}" @input="${this.changed}">
+      @change="${this.changed}" @input="${this.changed}" class="${cls}">
     <div id="overlay">
       <svg></svg>
     </div>
