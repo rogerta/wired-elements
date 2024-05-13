@@ -79,9 +79,9 @@ export class WiredDialog extends LitElement {
   render(): TemplateResult {
     return html`
     <div id="container">
-      <div part="inner" id="overlay" class="vertical layout">
+      <div id="overlay" class="vertical layout">
         <div class="flex"></div>
-        <div style="text-align: center; padding: 5px;">
+        <div part="inner" style="text-align: center; padding: 5px;">
           <wired-card .elevation="${this.elevation}"><slot></slot></wired-card>
         </div>
         <div class="flex"></div>
