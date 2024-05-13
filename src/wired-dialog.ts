@@ -48,6 +48,7 @@ export class WiredDialog extends LitElement {
         -ms-flex-direction: column;
         -webkit-flex-direction: column;
         flex-direction: column;
+        align-items: center;
       }
       .flex {
         -ms-flex: 1 1 0.000000001px;
@@ -78,7 +79,7 @@ export class WiredDialog extends LitElement {
   render(): TemplateResult {
     return html`
     <div id="container">
-      <div id="overlay" class="vertical layout">
+      <div part="inner" id="overlay" class="vertical layout">
         <div class="flex"></div>
         <div style="text-align: center; padding: 5px;">
           <wired-card .elevation="${this.elevation}"><slot></slot></wired-card>
