@@ -1,5 +1,5 @@
-import { Point } from 'roughjs/bin/geometry.js';
-import { ResolvedOptions, OpSet, Op } from 'roughjs/bin/core';
+import { Point } from 'roughjs/bundled/geometry';
+import { ResolvedOptions, OpSet, Op } from 'roughjs/bundled/core';
 import {
   line as roughLine,
   rectangle as roughRectangle,
@@ -8,9 +8,9 @@ import {
   arc as roughArc,
   doubleLineFillOps,
   generateEllipseParams
-} from 'roughjs/bin/renderer';
-import { ZigZagFiller } from 'roughjs/bin/fillers/zigzag-filler';
-import { RenderHelper } from 'roughjs/bin/fillers/filler-interface';
+} from 'roughjs/bundled/renderer';
+import { ZigZagFiller } from 'roughjs/bundled/fillers/zigzag-filler';
+import { RenderHelper } from 'roughjs/bundled/fillers/filler-interface';
 
 type Params = { [name: string]: string };
 
@@ -46,9 +46,10 @@ function options(seed: number): ResolvedOptions {
     dashOffset: -1,
     dashGap: -1,
     zigzagOffset: 0,
-    combineNestedSvgPaths: false,
     disableMultiStroke: false,
     disableMultiStrokeFill: false,
+    preserveVertices: false,
+    fillShapeRoughnessGain: 0.8,  // TODO: what is the right value?
     seed
   };
 }
@@ -119,7 +120,7 @@ export function arc(parent: SVGElement, x: number, y: number, width: number, hei
 
 export function hachureFill(points: Point[], seed: number): SVGElement {
   const hf = new ZigZagFiller(fillHelper);
-  const ops = hf.fillPolygon(points, options(seed));
+  const ops = hf.fillPolygons([points], options(seed));
   return createPathNode(ops, null);
 }
 
