@@ -127,7 +127,7 @@ export class WiredTabs extends LitElement {
       }
     }
     this.current = newPage || undefined;
-    if (this.current && this.current.wiredRender) {
+    if (this.current) {
       requestAnimationFrame(() => requestAnimationFrame(() => this.current!.wiredRender()));
     }
   }
