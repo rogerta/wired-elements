@@ -101,7 +101,7 @@ export class WiredVideo extends WiredBase {
 
   render(): TemplateResult {
     return html`
-    <video 
+    <video
       .autoplay="${this.autoplay}"
       .loop="${this.loop}"
       .muted="${this.muted}"
@@ -146,7 +146,8 @@ export class WiredVideo extends WiredBase {
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    rectangle(svg, 2, 2, size[0] - 4, size[1] - 4, this.seed);
+    const options = this.options();
+    rectangle(svg, 2, 2, size[0] - 4, size[1] - 4, options);
   }
 
   private updateTime() {

@@ -1,5 +1,5 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { hachureEllipseFill } from './wired-lib';
+import { ellipse } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
@@ -84,7 +84,7 @@ export class WiredFab extends WiredBase {
 
   protected draw(svg: SVGSVGElement, size: Point) {
     const min = Math.min(size[0], size[1]);
-    const g = hachureEllipseFill(min / 2, min / 2, min, min, this.seed);
-    svg.appendChild(g);
+    const options = {...this.options(), stroke: 'transparent', fill: '' };
+    ellipse(svg, min / 2, min / 2, min, min, options);
   }
 }

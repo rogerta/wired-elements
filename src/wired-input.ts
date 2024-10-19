@@ -95,7 +95,8 @@ export class WiredInput extends WiredBase {
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    rectangle(svg, 2, 2, size[0] - 2, size[1] - 2, this.seed);
+    const options = this.options();
+    rectangle(svg, 2, 2, size[0] - 2, size[1] - 2, options);
   }
 
   private changed(_: Event) {

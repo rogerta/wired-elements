@@ -61,7 +61,7 @@ export class WiredProgressRing extends WiredBase {
     <div id="overlay" class="overlay">
       <svg></svg>
     </div>
-    
+
     ${this.hideLabel ? '' : html`
     <div id="labelPanel">
       <div>${label}</div>
@@ -83,8 +83,8 @@ export class WiredProgressRing extends WiredBase {
 
   protected draw(svg: SVGSVGElement, size: Point) {
     const [x, y, w, h] = [size[0] / 2, size[1] / 2, size[0] - 10, size[1] - 10];
-    ellipse(svg, x, y, w, h, this.seed);
-
+    const options = this.options();
+    ellipse(svg, x, y, w, h, options);
   }
 
   private refreshProgressFill() {
@@ -99,7 +99,8 @@ export class WiredProgressRing extends WiredBase {
       const [x, y, w, h] = [size[0] / 2, size[1] / 2, size[0] - 10, size[1] - 10];
       const pct = Math.min(1, Math.max(0, (this.value - this.min) / (this.max - this.min)));
       if (pct) {
-        this.progArc = arc(this.svg, x, y, w, h, -Math.PI / 2, 2 * Math.PI * pct - Math.PI / 2, this.seed);
+        const options = this.options();
+        this.progArc = arc(this.svg, x, y, w, h, -Math.PI / 2, 2 * Math.PI * pct - Math.PI / 2, options);
         this.progArc.classList.add('progressArc');
       }
     }

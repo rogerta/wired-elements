@@ -49,7 +49,7 @@ export class WiredSearchInput extends WiredBase {
           color: inherit;
           padding: 6px;
         }
-        
+
         input[type=search]::-ms-clear {  display: none; width : 0; height: 0; }
         input[type=search]::-ms-reveal {  display: none; width : 0; height: 0; }
         input[type="search"]::-webkit-search-decoration,
@@ -83,8 +83,8 @@ export class WiredSearchInput extends WiredBase {
   render(): TemplateResult {
     return html`
     <input type="search" placeholder="${this.placeholder}" ?disabled="${this.disabled}"
-      autocomplete="${this.autocomplete}" ?autofocus="${this.autofocus}" 
-      autocapitalize="${this.autocapitalize}" autocorrect="${this.autocorrect}" 
+      autocomplete="${this.autocomplete}" ?autofocus="${this.autofocus}"
+      autocapitalize="${this.autocapitalize}" autocorrect="${this.autocorrect}"
       @change="${this.refire}" @input="${this.refire}">
     <div id="overlay">
       <svg></svg>
@@ -131,19 +131,20 @@ export class WiredSearchInput extends WiredBase {
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    rectangle(svg, 2, 2, size[0] - 2, size[1] - 2, this.seed);
+    const options = this.options();
+    rectangle(svg, 2, 2, size[0] - 2, size[1] - 2, options);
 
     this.searchIcon = svgNode('g');
     this.searchIcon.classList.add('thicker');
     svg.appendChild(this.searchIcon);
-    ellipse(this.searchIcon, size[0] - 30, (size[1] - 30) / 2 + 10, 20, 20, this.seed);
-    line(this.searchIcon, size[0] - 10, (size[1] - 30) / 2 + 30, size[0] - 25, (size[1] - 30) / 2 + 15, this.seed);
+    ellipse(this.searchIcon, size[0] - 30, (size[1] - 30) / 2 + 10, 20, 20, options);
+    line(this.searchIcon, size[0] - 10, (size[1] - 30) / 2 + 30, size[0] - 25, (size[1] - 30) / 2 + 15, options);
 
     this.closeIcon = svgNode('g');
     this.closeIcon.classList.add('thicker');
     svg.appendChild(this.closeIcon);
-    line(this.closeIcon, size[0] - 33, (size[1] - 30) / 2 + 2, size[0] - 7, (size[1] - 30) / 2 + 28, this.seed);
-    line(this.closeIcon, size[0] - 7, (size[1] - 30) / 2 + 2, size[0] - 33, (size[1] - 30) / 2 + 28, this.seed);
+    line(this.closeIcon, size[0] - 33, (size[1] - 30) / 2 + 2, size[0] - 7, (size[1] - 30) / 2 + 28, options);
+    line(this.closeIcon, size[0] - 7, (size[1] - 30) / 2 + 2, size[0] - 33, (size[1] - 30) / 2 + 28, options);
   }
 
   private refreshIconState() {

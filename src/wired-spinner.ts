@@ -1,5 +1,5 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { ellipse, hachureEllipseFill } from './wired-lib';
+import { ellipse } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -44,8 +44,9 @@ export class WiredSpinner extends WiredBase {
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    ellipse(svg, size[0] / 2, size[1] / 2, Math.floor(size[0] * 0.8), Math.floor(0.8 * size[1]), this.seed);
-    this.knob = hachureEllipseFill(0, 0, 20, 20, this.seed);
+    const options = this.options();
+    ellipse(svg, size[0] / 2, size[1] / 2, Math.floor(size[0] * 0.8), Math.floor(0.8 * size[1]), options);
+    this.knob = ellipse(svg, 0, 0, 20, 20, {...options, stroke: 'none'});
     this.knob.classList.add('knob');
     svg.appendChild(this.knob);
     this.updateCursor();

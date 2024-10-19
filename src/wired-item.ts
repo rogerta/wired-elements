@@ -1,7 +1,7 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
+import { rectangle } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { hachureFill } from './wired-lib';
 
 @customElement('wired-item')
 export class WiredItem extends WiredBase {
@@ -95,12 +95,8 @@ export class WiredItem extends WiredBase {
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    const g = hachureFill([
-      [0, 0],
-      [size[0], 0],
-      [size[0], size[1]],
-      [0, size[1]]
-    ], this.seed);
-    svg.appendChild(g);
+    const options = this.options();
+    options.stroke = 'none';
+    rectangle(svg, 0, 0, size[0], size[1], options);
   }
 }

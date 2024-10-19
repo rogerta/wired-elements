@@ -200,6 +200,7 @@ export class WiredListbox extends WiredBase {
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    rectangle(svg, 0, 0, size[0], size[1], this.seed);
+    const options = this.options();
+    rectangle(svg, 0, 0, size[0], size[1], options);
   }
 }

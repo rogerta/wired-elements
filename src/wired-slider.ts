@@ -120,7 +120,7 @@ export class WiredSlider extends WiredBase {
   render(): TemplateResult {
     return html`
     <div id="container">
-      <input type="range" 
+      <input type="range"
         min="${this.min}"
         max="${this.max}"
         step="${this.step}"
@@ -162,8 +162,10 @@ export class WiredSlider extends WiredBase {
   protected draw(svg: SVGSVGElement, size: Point) {
     this.canvasWidth = size[0];
     const midY = Math.round(size[1] / 2);
-    line(svg, 0, midY, size[0], midY, this.seed).classList.add('bar');
-    this.knob = ellipse(svg, 12, midY, 24, 24, this.seed);
+    const options = this.options();
+
+    line(svg, 0, midY, size[0], midY, options).classList.add('bar');
+    this.knob = ellipse(svg, 12, midY, 24, 24, options);
     this.knob.classList.add('knob');
   }
 

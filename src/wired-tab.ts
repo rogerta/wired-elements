@@ -38,6 +38,7 @@ export class WiredTab extends WiredBase {
   }
 
   protected draw(svg: SVGSVGElement, s: Point) {
-    rectangle(svg, 2, 2, s[0] - 4, s[1] - 4, this.seed);
+    const options = this.options();
+    rectangle(svg, 2, 2, s[0] - 4, s[1] - 4, options);
   }
 }

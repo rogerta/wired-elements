@@ -77,7 +77,7 @@ export class WiredRadio extends WiredBase {
   render(): TemplateResult {
     return html`
     <label id="container" class="${this.focused ? 'focused' : ''}">
-      <input type="checkbox" .checked="${this.checked}" ?disabled="${this.disabled}" 
+      <input type="checkbox" .checked="${this.checked}" ?disabled="${this.disabled}"
         @change="${this.onChange}"
         @focus="${() => this.focused = true}"
         @blur="${() => this.focused = false}">
@@ -98,12 +98,13 @@ export class WiredRadio extends WiredBase {
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    ellipse(svg, size[0] / 2, size[1] / 2, size[0], size[1], this.seed);
+    const options = this.options();
+    ellipse(svg, size[0] / 2, size[1] / 2, size[0], size[1], options);
     this.svgCheck = svgNode('g');
     svg.appendChild(this.svgCheck);
     const iw = Math.max(size[0] * 0.6, 5);
     const ih = Math.max(size[1] * 0.6, 5);
-    ellipse(this.svgCheck, size[0] / 2, size[1] / 2, iw, ih, this.seed);
+    ellipse(this.svgCheck, size[0] / 2, size[1] / 2, iw, ih, options);
   }
 
   private refreshCheckVisibility() {

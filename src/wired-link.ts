@@ -71,9 +71,11 @@ export class WiredLink extends WiredBase {
       width: size[0],
       height: size[1] - ((elev - 1) * 2)
     };
+    const options = this.options();
+
     for (let i = 0; i < elev; i++) {
-      line(svg, 0, s.height + (i * 2) - 2, s.width, s.height + (i * 2) - 2, this.seed);
-      line(svg, 0, s.height + (i * 2) - 2, s.width, s.height + (i * 2) - 2, this.seed);
+      line(svg, 0, s.height + (i * 2) - 2, s.width, s.height + (i * 2) - 2, options);
+      line(svg, 0, s.height + (i * 2) - 2, s.width, s.height + (i * 2) - 2, options);
     }
   }
 }

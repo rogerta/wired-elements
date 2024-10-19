@@ -1,5 +1,5 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { rectangle, hachureFill } from './wired-lib';
+import { rectangle } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -87,7 +87,8 @@ export class WiredProgress extends WiredBase {
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    rectangle(svg, 2, 2, size[0] - 2, size[1] - 2, this.seed);
+    const options = this.options();
+    rectangle(svg, 2, 2, size[0] - 2, size[1] - 2, options);
   }
 
   private refreshProgressFill() {
@@ -103,14 +104,9 @@ export class WiredProgress extends WiredBase {
       if (this.max > this.min) {
         pct = (this.value - this.min) / (this.max - this.min);
         const progWidth = s.width * Math.max(0, Math.min(pct, 100));
-        this.progBox = hachureFill([
-          [0, 0],
-          [progWidth, 0],
-          [progWidth, s.height],
-          [0, s.height]
-        ], this.seed);
-        this.svg!.appendChild(this.progBox);
-        this.progBox.classList.add('progbox');
+        const options = this.options();
+        this.progBox = rectangle(this.svg, 0, 0, progWidth, s.height, {...options, stroke: 'none'});
+        this.progBox?.classList.add('progbox');
       }
     }
   }

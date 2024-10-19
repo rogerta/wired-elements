@@ -71,7 +71,7 @@ export class WiredCheckbox extends WiredBase {
     this.refreshCheckVisibility();
     return html`
     <label id="container" class="${this.focused ? 'focused' : ''}">
-      <input type="checkbox" .checked="${this.checked}" ?disabled="${this.disabled}" 
+      <input type="checkbox" .checked="${this.checked}" ?disabled="${this.disabled}"
         @change="${this.onChange}"
         @focus="${() => this.focused = true}"
         @blur="${() => this.focused = false}">
@@ -91,11 +91,12 @@ export class WiredCheckbox extends WiredBase {
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    rectangle(svg, 0, 0, size[0], size[1], this.seed);
+    const options = this.options();
+    rectangle(svg, 0, 0, size[0], size[1], options);
     this.svgCheck = svgNode('g');
     svg.appendChild(this.svgCheck);
-    line(this.svgCheck, size[0] * 0.3, size[1] * 0.4, size[0] * 0.5, size[1] * 0.7, this.seed);
-    line(this.svgCheck, size[0] * 0.5, size[1] * 0.7, size[0] + 5, -5, this.seed);
+    line(this.svgCheck, size[0] * 0.3, size[1] * 0.4, size[0] * 0.5, size[1] * 0.7, options);
+    line(this.svgCheck, size[0] * 0.5, size[1] * 0.7, size[0] + 5, -5, options);
     this.refreshCheckVisibility();
   }
 

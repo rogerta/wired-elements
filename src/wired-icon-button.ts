@@ -79,8 +79,9 @@ export class WiredIconButton extends WiredBase {
 
   protected draw(svg: SVGSVGElement, size: Point) {
     const min = Math.min(size[0], size[1]);
+    const options = this.options();
     svg.setAttribute('width', `${min}`);
     svg.setAttribute('height', `${min}`);
-    ellipse(svg, min / 2, min / 2, min, min, this.seed);
+    ellipse(svg, min / 2, min / 2, min, min, options);
   }
 }

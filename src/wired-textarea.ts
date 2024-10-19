@@ -103,7 +103,8 @@ export class WiredTextarea extends WiredBase {
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    rectangle(svg, 4, 4, size[0] - 4, size[1] - 4, this.seed);
+    const options = this.options();
+    rectangle(svg, 4, 4, size[0] - 4, size[1] - 4, options);
   }
 
   private refire(event: Event) {

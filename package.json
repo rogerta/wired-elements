@@ -8,7 +8,8 @@
   "types": "lib/wired-elements.d.ts",
   "scripts": {
     "build": "rm -rf lib && tsc",
-    "pub": "npm publish --access public"
+    "pub": "npm publish --access public",
+    "start": "web-dev-server --node-resolve --watch --port 9201"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,9 @@
   ],
   "author": "Preet Shihn <preetshihn@gmail.com> (https://twitter.com/preetster)",
   "contributors": [
-    {"name": "Roger Tawa <rogerta@gmail.com>"}
+    {
+      "name": "Roger Tawa <rogerta@gmail.com>"
+    }
   ],
   "license": "MIT",
   "bugs": {
@@ -33,6 +36,7 @@
   },
   "homepage": "https://github.com/rogerta/wired-elements",
   "devDependencies": {
+    "@web/dev-server": "^0.4.6",
     "typescript": "^5.6.3"
   },
   "dependencies": {

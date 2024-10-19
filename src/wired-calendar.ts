@@ -271,14 +271,15 @@ export class WiredCalendar extends LitElement {
     const elev = Math.min(Math.max(1, this.elevation), 5);
     const w = s.width + ((elev - 1) * 2);
     const h = s.height + ((elev - 1) * 2);
+    const options = {seed: this.seed};
     svg.setAttribute('width', `${w}`);
     svg.setAttribute('height', `${h}`);
-    rectangle(svg, 2, 2, s.width - 4, s.height - 4, this.seed);
+    rectangle(svg, 2, 2, s.width - 4, s.height - 4, options);
     for (let i = 1; i < elev; i++) {
-      (line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), this.seed)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, this.seed)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), this.seed)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, this.seed)).style.opacity = `${(85 - (i * 10)) / 100}`;
+      (line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
+      (line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
+      (line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
+      (line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
     }
 
     // Redraw sketchy red circle `selected` cell
@@ -289,7 +290,7 @@ export class WiredCalendar extends LitElement {
       }
       const iw = Math.max(this.tblColWidth * 1.0, 20);
       const ih = Math.max(this.tblRowHeight * 0.9, 18);
-      const c = ellipse(svgTD, this.tblColWidth / 2, this.tblRowHeight / 2, iw, ih, this.seed);
+      const c = ellipse(svgTD, this.tblColWidth / 2, this.tblRowHeight / 2, iw, ih, options);
       svgTD.appendChild(c);
     }
 

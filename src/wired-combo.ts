@@ -39,23 +39,23 @@ export class WiredCombo extends WiredBase {
         position: relative;
         outline: none;
       }
-    
+
       :host(.wired-disabled) {
         opacity: 0.5 !important;
         cursor: default;
         pointer-events: none;
         background: rgba(0, 0, 0, 0.02);
       }
-      
+
       :host(:focus) path {
         stroke-width: 1.5;
       }
-    
+
       #container {
         white-space: nowrap;
         position: relative;
       }
-    
+
       .inline {
         display: inline-block;
         vertical-align: top
@@ -70,12 +70,12 @@ export class WiredCombo extends WiredBase {
         min-height: 18px;
         padding: 8px;
       }
-    
+
       #dropPanel {
         width: 34px;
         cursor: pointer;
       }
-    
+
       #card {
         display: block;
         position: absolute;
@@ -84,7 +84,7 @@ export class WiredCombo extends WiredBase {
         box-shadow: 1px 5px 15px -6px rgba(0, 0, 0, 0.8);
         padding: 8px;
       }
-  
+
       ::slotted(wired-item) {
         display: block;
       }
@@ -178,16 +178,17 @@ export class WiredCombo extends WiredBase {
 
   protected draw(svg: SVGSVGElement, _size: Point) {
     const textBounds = this.textPanel.getBoundingClientRect();
+    const options = this.options();
     this.dropPanel.style.minHeight = textBounds.height + 'px';
-    rectangle(svg, 0, 0, textBounds.width, textBounds.height, this.seed);
+    rectangle(svg, 0, 0, textBounds.width, textBounds.height, options);
     const dropx = textBounds.width - 4;
-    rectangle(svg, dropx, 0, 34, textBounds.height, this.seed);
+    rectangle(svg, dropx, 0, 34, textBounds.height, options);
     const dropOffset = Math.max(0, Math.abs((textBounds.height - 24) / 2));
     const poly = polygon(svg, [
       [dropx + 8, 5 + dropOffset],
       [dropx + 26, 5 + dropOffset],
       [dropx + 17, dropOffset + Math.min(textBounds.height, 18)]
-    ], this.seed);
+    ], options);
     poly.style.fill = 'currentColor';
     poly.style.pointerEvents = this.disabled ? 'none' : 'auto';
     poly.style.cursor = 'pointer';

@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "module": "es2015",
-    "moduleResolution": "node",
+    "target": "es2021",
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
     "lib": [
-      "es2017",
+      "esnext",
       "dom"
     ],
     "declaration": true,
     "outDir": "./lib",
     "baseUrl": ".",
     "strict": true,
+    "esModuleInterop": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,

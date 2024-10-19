@@ -1,7 +1,8 @@
 import { LitElement, css } from 'lit';
 import { query } from 'lit/decorators.js';
 
-export type Point = [number, number];
+import { Options, Point } from './wired-lib.js';
+export { Point } from './wired-lib.js';
 
 export const BaseCSS = css`
 :host {
@@ -62,6 +63,10 @@ export abstract class WiredBase extends LitElement {
 
   fire(name: string, detail?: any) {
     fireEvent(this, name, detail);
+  }
+
+  protected options(): Options {
+    return {seed: this.seed};
   }
 
   protected abstract canvasSize(): Point;
