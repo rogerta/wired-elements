@@ -36,7 +36,7 @@ export class WiredProgress extends WiredBase {
         border-radius: 4px;
         letter-spacing: 1.25px;
       }
-      path.progbox {
+      .progbox path {
         stroke: var(--wired-progress-color, rgba(0, 0, 200, 0.8));
         stroke-width: 2.75;
         fill: none;
@@ -105,7 +105,10 @@ export class WiredProgress extends WiredBase {
         pct = (this.value - this.min) / (this.max - this.min);
         const progWidth = s.width * Math.max(0, Math.min(pct, 100));
         const options = this.options();
-        this.progBox = rectangle(this.svg, 0, 0, progWidth, s.height, {...options, stroke: 'none'});
+        options.stroke = 'none';
+        // NOTE: fill is hard coded, but actually colour set via css.
+        options.fill = '#000';
+        this.progBox = rectangle(this.svg, 0, 0, progWidth, s.height, options);
         this.progBox?.classList.add('progbox');
       }
     }

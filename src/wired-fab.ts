@@ -84,7 +84,8 @@ export class WiredFab extends WiredBase {
 
   protected draw(svg: SVGSVGElement, size: Point) {
     const min = Math.min(size[0], size[1]);
-    const options = {...this.options(), stroke: 'transparent', fill: '' };
+    // NOTE: fill is hard coded, but actually colour set via css.
+    const options = {...this.options(), stroke: 'none', fill: '#000' };
     ellipse(svg, min / 2, min / 2, min, min, options);
   }
 }

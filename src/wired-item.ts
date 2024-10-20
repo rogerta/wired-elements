@@ -97,6 +97,8 @@ export class WiredItem extends WiredBase {
   protected draw(svg: SVGSVGElement, size: Point) {
     const options = this.options();
     options.stroke = 'none';
+    // NOTE: fill is hard coded, but actually colour set via css.
+    options.fill = '#000';
     rectangle(svg, 0, 0, size[0], size[1], options);
   }
 }

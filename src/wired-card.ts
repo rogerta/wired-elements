@@ -54,7 +54,9 @@ export class WiredCard extends WiredBase {
 
     const options = this.options();
     if (this.fill && this.fill.trim()) {
-      options.fill = this.fill;
+      const f = rectangle(svg, 2, 2, s.width - 4, s.height - 4, {...options, stroke: 'none', fill: this.fill});
+      f.classList.add('cardFill');
+      svg.style.setProperty('--wired-card-background-fill', this.fill.trim());
     }
 
     rectangle(svg, 2, 2, s.width - 4, s.height - 4, options);

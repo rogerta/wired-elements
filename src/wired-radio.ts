@@ -1,5 +1,5 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { ellipse, svgNode } from './wired-lib';
+import { ellipse } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray, PropertyValues } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
@@ -50,7 +50,7 @@ export class WiredRadio extends WiredBase {
         stroke: var(--wired-radio-icon-color, currentColor);
         stroke-width: var(--wired-radio-default-swidth, 0.7);
       }
-      g path {
+      .inner path {
         stroke-width: 0;
         fill: var(--wired-radio-icon-color, currentColor);
       }
@@ -100,11 +100,12 @@ export class WiredRadio extends WiredBase {
   protected draw(svg: SVGSVGElement, size: Point) {
     const options = this.options();
     ellipse(svg, size[0] / 2, size[1] / 2, size[0], size[1], options);
-    this.svgCheck = svgNode('g');
-    svg.appendChild(this.svgCheck);
+    // this.svgCheck = svgNode('g');
+    // svg.appendChild(this.svgCheck);
     const iw = Math.max(size[0] * 0.6, 5);
     const ih = Math.max(size[1] * 0.6, 5);
-    ellipse(this.svgCheck, size[0] / 2, size[1] / 2, iw, ih, options);
+    this.svgCheck = ellipse(svg, size[0] / 2, size[1] / 2, iw, ih, options);
+    this.svgCheck.classList.add('inner');
   }
 
   private refreshCheckVisibility() {

@@ -27,7 +27,7 @@ export class WiredProgressRing extends WiredBase {
       #overlay {
         position: relative;
       }
-      path.progressArc {
+      .progressArc path {
         stroke-width: 10px;
         stroke: var(--wired-progress-color, blue);
       }
@@ -71,8 +71,7 @@ export class WiredProgressRing extends WiredBase {
     `;
   }
 
-  wiredRender(force = false) {
-    super.wiredRender(force);
+  updated() {
     this.refreshProgressFill();
   }
 
