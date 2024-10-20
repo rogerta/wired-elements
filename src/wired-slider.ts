@@ -78,7 +78,7 @@ export class WiredSlider extends WiredBase {
         margin: 0;
         line-height: 1;
       }
-      .knob{
+      .knob path {
         fill: var(--wired-slider-knob-color, rgb(51, 103, 214));
         stroke: var(--wired-slider-knob-color, rgb(51, 103, 214));
       }
