@@ -49,14 +49,14 @@ export class WiredToggle extends WiredBase {
       .knob.checked {
         transform: translateX(48px);
       }
-      path.knobfill {
+      .knobfill path {
         stroke-width: 3 !important;
         fill: transparent;
       }
-      .knob.unchecked path.knobfill {
+      .knob.unchecked .knobfill path {
         stroke: var(--wired-toggle-off-color, gray);
       }
-      .knob.checked path.knobfill {
+      .knob.checked .knobfill path {
         stroke: var(--wired-toggle-on-color, rgb(63, 81, 181));
       }
       `
@@ -102,9 +102,8 @@ export class WiredToggle extends WiredBase {
     this.knob = svgNode('g');
     this.knob.classList.add('knob');
     svg.appendChild(this.knob);
-    const knobFill = ellipse(svg, 16, 16, 32, 32, {...options, stroke: 'none'});
+    const knobFill = ellipse(this.knob, 16, 16, 32, 32, {...options, stroke: 'none', fill: '#000'});
     knobFill.classList.add('knobfill');
-    this.knob.appendChild(knobFill);
     ellipse(this.knob, 16, 16, 32, 32, options);
   }
 

@@ -27,7 +27,7 @@ export class WiredSpinner extends WiredBase {
           stroke-width: 1.5;
           fill: none;
         }
-        .knob {
+        .knob path {
           stroke-width: 2.8 !important;
           stroke-opacity: 1;
         }
@@ -46,9 +46,10 @@ export class WiredSpinner extends WiredBase {
   protected draw(svg: SVGSVGElement, size: Point) {
     const options = this.options();
     ellipse(svg, size[0] / 2, size[1] / 2, Math.floor(size[0] * 0.8), Math.floor(0.8 * size[1]), options);
-    this.knob = ellipse(svg, 0, 0, 20, 20, {...options, stroke: 'none'});
+    options.stroke = 'none';
+    options.fill = '#000';
+    this.knob = ellipse(svg, 0, 0, 20, 20, options);
     this.knob.classList.add('knob');
-    svg.appendChild(this.knob);
     this.updateCursor();
   }
 
