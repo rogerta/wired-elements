@@ -50,7 +50,7 @@ export class WiredFab extends WiredBase {
         }
         path {
           stroke: var(--wired-fab-bg-color, #018786);
-          stroke-width: 3;
+          stroke-width: 4;
           fill: transparent;
         }
 

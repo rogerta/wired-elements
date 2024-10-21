@@ -24,7 +24,7 @@ export class WiredSpinner extends WiredBase {
         path {
           stroke: currentColor;
           stroke-opacity: 0.65;
-          stroke-width: 1.5;
+          stroke-width: 3;
           fill: none;
         }
         .knob path {

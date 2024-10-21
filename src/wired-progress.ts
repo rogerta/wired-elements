@@ -38,7 +38,7 @@ export class WiredProgress extends WiredBase {
       }
       .progbox path {
         stroke: var(--wired-progress-color, rgba(0, 0, 200, 0.8));
-        stroke-width: 2.75;
+        stroke-width: 4;
         fill: none;
       }
       .overlay {

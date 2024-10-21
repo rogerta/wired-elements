@@ -50,7 +50,7 @@ export class WiredToggle extends WiredBase {
         transform: translateX(48px);
       }
       .knobfill path {
-        stroke-width: 3 !important;
+        stroke-width: 4 !important;
         fill: transparent;
       }
       .knob.unchecked .knobfill path {
