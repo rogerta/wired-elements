@@ -1,5 +1,5 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { rectangle, ellipse, svgNode } from './wired-lib';
+import { svgNode } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
@@ -97,14 +97,14 @@ export class WiredToggle extends WiredBase {
 
   protected draw(svg: SVGSVGElement, size: Point) {
     const options = this.options();
-    const rect = rectangle(svg, 16, 8, size[0] - 32, 18, options);
+    const rect = this.rectangle(svg, 16, 8, size[0] - 32, 18, options);
     rect.classList.add('toggle-bar');
     this.knob = svgNode('g');
     this.knob.classList.add('knob');
     svg.appendChild(this.knob);
-    const knobFill = ellipse(this.knob, 16, 16, 32, 32, {...options, stroke: 'none', fill: '#000'});
+    const knobFill = this.ellipse(this.knob, 16, 16, 32, 32, {...options, stroke: 'none', fill: '#000'});
     knobFill.classList.add('knobfill');
-    ellipse(this.knob, 16, 16, 32, 32, options);
+    this.ellipse(this.knob, 16, 16, 32, 32, options);
   }
 
   private refreshKnob() {

@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { ellipse, arc } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -83,7 +82,7 @@ export class WiredProgressRing extends WiredBase {
   protected draw(svg: SVGSVGElement, size: Point) {
     const [x, y, w, h] = [size[0] / 2, size[1] / 2, size[0] - 10, size[1] - 10];
     const options = this.options();
-    ellipse(svg, x, y, w, h, options);
+    this.ellipse(svg, x, y, w, h, options);
   }
 
   private refreshProgressFill() {
@@ -99,7 +98,7 @@ export class WiredProgressRing extends WiredBase {
       const pct = Math.min(1, Math.max(0, (this.value - this.min) / (this.max - this.min)));
       if (pct) {
         const options = this.options();
-        this.progArc = arc(this.svg, x, y, w, h, -Math.PI / 2, 2 * Math.PI * pct - Math.PI / 2, options);
+        this.progArc = this.arc(this.svg, x, y, w, h, -Math.PI / 2, 2 * Math.PI * pct - Math.PI / 2, options);
         this.progArc.classList.add('progressArc');
       }
     }

@@ -1,7 +1,8 @@
-import { rectangle, line, ellipse } from './wired-lib';
-import { randomSeed, fireEvent } from './wired-base';
+import { defaultConfig, rectangle, line, ellipse, fireEvent, randomSeed } from './wired-lib';
 import { css, TemplateResult, html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import roughjs from 'roughjs';
+import { RoughSVG } from 'roughjs/bin/svg';
 
 interface AreaSize {
   width: number;
@@ -58,6 +59,7 @@ export class WiredCalendar extends LitElement {
   private weeks: CalendarCell[][] = [[]];
 
   private seed = randomSeed();
+  private rough?: RoughSVG;
 
   connectedCallback() {
     super.connectedCallback();
@@ -254,6 +256,9 @@ export class WiredCalendar extends LitElement {
   firstUpdated(changed: PropertyValues) {
     super.firstUpdated(changed);
     this.setAttribute('role', 'dialog');
+
+    const svg = (this.renderRoot.querySelector('#svg') as any) as SVGSVGElement;
+    this.rough = roughjs.svg(svg, defaultConfig());
   }
 
   updated(changed?: PropertyValues) {
@@ -263,38 +268,40 @@ export class WiredCalendar extends LitElement {
     }
 
     // Redraw calendar sketchy bounding box
-    const svg = (this.shadowRoot!.getElementById('svg') as any) as SVGSVGElement;
+    const svg = (this.renderRoot.querySelector('#svg') as any) as SVGSVGElement;
     while (svg.hasChildNodes()) {
       svg.removeChild(svg.lastChild!);
     }
-    const s: AreaSize = this.getCalendarSize();
-    const elev = Math.min(Math.max(1, this.elevation), 5);
-    const w = s.width + ((elev - 1) * 2);
-    const h = s.height + ((elev - 1) * 2);
-    const options = {seed: this.seed};
-    svg.setAttribute('width', `${w}`);
-    svg.setAttribute('height', `${h}`);
-    rectangle(svg, 2, 2, s.width - 4, s.height - 4, options);
-    for (let i = 1; i < elev; i++) {
-      (line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
-    }
-
-    // Redraw sketchy red circle `selected` cell
-    const svgTD = (this.shadowRoot!.getElementById('svgTD') as any) as SVGSVGElement;
-    if (svgTD) {
-      while (svgTD.hasChildNodes()) {
-        svgTD.removeChild(svgTD.lastChild!);
+    if (this.rough) {
+      const s: AreaSize = this.getCalendarSize();
+      const elev = Math.min(Math.max(1, this.elevation), 5);
+      const w = s.width + ((elev - 1) * 2);
+      const h = s.height + ((elev - 1) * 2);
+      const options = {seed: this.seed};
+      svg.setAttribute('width', `${w}`);
+      svg.setAttribute('height', `${h}`);
+      rectangle(this.rough, svg, 2, 2, s.width - 4, s.height - 4, options);
+      for (let i = 1; i < elev; i++) {
+        (line(this.rough, svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
+        (line(this.rough, svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
+        (line(this.rough, svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
+        (line(this.rough, svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
       }
-      const iw = Math.max(this.tblColWidth * 1.0, 20);
-      const ih = Math.max(this.tblRowHeight * 0.9, 18);
-      const c = ellipse(svgTD, this.tblColWidth / 2, this.tblRowHeight / 2, iw, ih, options);
-      svgTD.appendChild(c);
-    }
 
-    this.classList.add('wired-rendered');
+      // Redraw sketchy red circle `selected` cell
+      const svgTD = (this.renderRoot.querySelector('#svgTD') as any) as SVGSVGElement;
+      if (svgTD) {
+        while (svgTD.hasChildNodes()) {
+          svgTD.removeChild(svgTD.lastChild!);
+        }
+        const iw = Math.max(this.tblColWidth * 1.0, 20);
+        const ih = Math.max(this.tblRowHeight * 0.9, 18);
+        const c = ellipse(this.rough, svgTD, this.tblColWidth / 2, this.tblRowHeight / 2, iw, ih, options);
+        svgTD.appendChild(c);
+      }
+
+      this.classList.add('wired-rendered');
+    }
   }
 
   setSelectedDate(formatedDate: string): void {

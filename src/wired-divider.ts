@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { line } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -33,7 +32,7 @@ export class WiredDivider extends WiredBase {
     const elev = Math.min(Math.max(1, this.elevation), 5);
     const options = this.options();
     for (let i = 0; i < elev; i++) {
-      line(svg, 0, (i * 6) + 3, size[0], (i * 6) + 3, options);
+      this.line(svg, 0, (i * 6) + 3, size[0], (i * 6) + 3, options);
     }
   }
 }

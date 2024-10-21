@@ -1,7 +1,9 @@
 import { LitElement, css } from 'lit';
 import { query } from 'lit/decorators.js';
+import roughjs from 'roughjs';
 
-import { Options, Point } from './wired-lib.js';
+import { Options, Point, defaultConfig, fireEvent, randomSeed, arc, ellipse, line, polygon, rectangle } from './wired-lib.js';
+import { RoughSVG } from 'roughjs/bin/svg.js';
 export { Point } from './wired-lib.js';
 
 export const BaseCSS = css`
@@ -38,6 +40,7 @@ export abstract class WiredBase extends LitElement {
   private lastSize: Point = [0, 0];
   private seed = randomSeed();
   private ro = new ResizeObserver(_ => this.wiredRender());
+  private rough?: RoughSVG;
 
   firstUpdated() {
     this.ro.observe(this);
@@ -46,6 +49,10 @@ export abstract class WiredBase extends LitElement {
 
   wiredRender(force = false) {
     if (this.svg) {
+      if (!this.rough) {
+        this.rough = roughjs.svg(this.svg, defaultConfig());
+      }
+
       const size = this.canvasSize();
       if ((!force) && (size[0] === this.lastSize[0]) && (size[1] === this.lastSize[1])) {
         return;
@@ -69,21 +76,29 @@ export abstract class WiredBase extends LitElement {
     return {seed: this.seed};
   }
 
+  protected rectangle(parent: SVGElement, x: number, y: number, width: number, height: number, options?: Options) {
+    return rectangle(this.rough!, parent, x + 2, y + 2, width - 4, height - 4, options);
+  }
+
+  protected line(parent: SVGElement, x1: number, y1: number, x2: number, y2: number, options?: Options) {
+    return line(this.rough!, parent, x1, y1, x2, y2, options);
+  }
+
+  protected polygon(parent: SVGElement, vertices: Point[], options?: Options) {
+    return polygon(this.rough!, parent, vertices, options);
+  }
+
+  protected ellipse(parent: SVGElement, x: number, y: number, width: number, height: number, options?: Options) {
+    return ellipse(this.rough!, parent, x, y, width, height, options);
+  }
+
+  protected arc(parent: SVGElement, x: number, y: number, width: number, height: number, start: number, stop: number, options?: Options) {
+    return arc(this.rough!, parent, x, y, width, height, start, stop, options);
+  }
+
   // Derived classes should override these two methods as needed.
   protected canvasSize() {
     return this.lastSize;
   }
   protected abstract draw(svg: SVGSVGElement, size: Point): void;
-}
-
-export function randomSeed(): number {
-  return Math.floor(Math.random() * 2 ** 31);
-}
-
-export function fireEvent(e: HTMLElement, name: string, detail?: any) {
-  e.dispatchEvent(new CustomEvent(name, {
-    composed: true,
-    bubbles: true,
-    detail
-  }));
 }

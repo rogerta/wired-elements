@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { rectangle } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -39,6 +38,6 @@ export class WiredTab extends WiredBase {
 
   protected draw(svg: SVGSVGElement, s: Point) {
     const options = this.options();
-    rectangle(svg, 2, 2, s[0] - 4, s[1] - 4, options);
+    this.rectangle(svg, 2, 2, s[0] - 4, s[1] - 4, options);
   }
 }

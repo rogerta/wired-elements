@@ -1,4 +1,5 @@
-import { BaseCSS, fireEvent } from './wired-base';
+import { BaseCSS } from './wired-base';
+import { fireEvent } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray, LitElement, PropertyValues } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 

@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { ellipse } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray, PropertyValues } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
@@ -99,12 +98,12 @@ export class WiredRadio extends WiredBase {
 
   protected draw(svg: SVGSVGElement, size: Point) {
     const options = this.options();
-    ellipse(svg, size[0] / 2, size[1] / 2, size[0], size[1], options);
+    this.ellipse(svg, size[0] / 2, size[1] / 2, size[0], size[1], options);
     // this.svgCheck = svgNode('g');
     // svg.appendChild(this.svgCheck);
     const iw = Math.max(size[0] * 0.6, 5);
     const ih = Math.max(size[1] * 0.6, 5);
-    this.svgCheck = ellipse(svg, size[0] / 2, size[1] / 2, iw, ih, options);
+    this.svgCheck = this.ellipse(svg, size[0] / 2, size[1] / 2, iw, ih, options);
     this.svgCheck.classList.add('inner');
   }
 

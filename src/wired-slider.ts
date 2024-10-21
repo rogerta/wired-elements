@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { line, ellipse } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
@@ -164,8 +163,8 @@ export class WiredSlider extends WiredBase {
     const midY = Math.round(size[1] / 2);
     const options = this.options();
 
-    line(svg, 0, midY, size[0], midY, options).classList.add('bar');
-    this.knob = ellipse(svg, 12, midY, 24, 24, options);
+    this.line(svg, 0, midY, size[0], midY, options).classList.add('bar');
+    this.knob = this.ellipse(svg, 12, midY, 24, 24, options);
     this.knob.classList.add('knob');
   }
 

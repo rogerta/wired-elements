@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { rectangle, line } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
@@ -90,12 +89,12 @@ export class WiredButton extends WiredBase {
       height: size[1] - ((elev - 1) * 2)
     };
     const options = this.options();
-    rectangle(svg, 0, 0, s.width, s.height, options);
+    this.rectangle(svg, 0, 0, s.width, s.height, options);
     for (let i = 1; i < elev; i++) {
-      (line(svg, (i * 2), s.height + (i * 2), s.width + (i * 2), s.height + (i * 2), options)).style.opacity = `${(75 - (i * 10)) / 100}`;
-      (line(svg, s.width + (i * 2), s.height + (i * 2), s.width + (i * 2), i * 2, options)).style.opacity = `${(75 - (i * 10)) / 100}`;
-      (line(svg, (i * 2), s.height + (i * 2), s.width + (i * 2), s.height + (i * 2), options)).style.opacity = `${(75 - (i * 10)) / 100}`;
-      (line(svg, s.width + (i * 2), s.height + (i * 2), s.width + (i * 2), i * 2, options)).style.opacity = `${(75 - (i * 10)) / 100}`;
+      (this.line(svg, (i * 2), s.height + (i * 2), s.width + (i * 2), s.height + (i * 2), options)).style.opacity = `${(75 - (i * 10)) / 100}`;
+      (this.line(svg, s.width + (i * 2), s.height + (i * 2), s.width + (i * 2), i * 2, options)).style.opacity = `${(75 - (i * 10)) / 100}`;
+      (this.line(svg, (i * 2), s.height + (i * 2), s.width + (i * 2), s.height + (i * 2), options)).style.opacity = `${(75 - (i * 10)) / 100}`;
+      (this.line(svg, s.width + (i * 2), s.height + (i * 2), s.width + (i * 2), i * 2, options)).style.opacity = `${(75 - (i * 10)) / 100}`;
     }
   }
 }

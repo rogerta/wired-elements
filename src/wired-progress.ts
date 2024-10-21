@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { rectangle } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -88,7 +87,7 @@ export class WiredProgress extends WiredBase {
 
   protected draw(svg: SVGSVGElement, size: Point) {
     const options = this.options();
-    rectangle(svg, 2, 2, size[0] - 2, size[1] - 2, options);
+    this.rectangle(svg, 2, 2, size[0] - 2, size[1] - 2, options);
   }
 
   private refreshProgressFill() {
@@ -108,7 +107,7 @@ export class WiredProgress extends WiredBase {
         options.stroke = 'none';
         // NOTE: fill is hard coded, but actually colour set via css.
         options.fill = '#000';
-        this.progBox = rectangle(this.svg, 0, 0, progWidth, s.height, options);
+        this.progBox = this.rectangle(this.svg, 0, 0, progWidth, s.height, options);
         this.progBox?.classList.add('progbox');
       }
     }

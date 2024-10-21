@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { ellipse } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
@@ -86,6 +85,6 @@ export class WiredFab extends WiredBase {
     const min = Math.min(size[0], size[1]);
     // NOTE: fill is hard coded, but actually colour set via css.
     const options = {...this.options(), stroke: 'none', fill: '#000' };
-    ellipse(svg, min / 2, min / 2, min, min, options);
+    this.ellipse(svg, min / 2, min / 2, min, min, options);
   }
 }

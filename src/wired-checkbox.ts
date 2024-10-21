@@ -1,5 +1,5 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { rectangle, line, svgNode } from './wired-lib';
+import { svgNode } from './wired-lib';
 import { css, TemplateResult, html } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 
@@ -92,12 +92,12 @@ export class WiredCheckbox extends WiredBase {
 
   protected draw(svg: SVGSVGElement, size: Point) {
     const options = this.options();
-    rectangle(svg, 0, 0, size[0], size[1], options);
+    this.rectangle(svg, 0, 0, size[0], size[1], options);
     this.svgCheck = svgNode('g');
     this.svgCheck.classList.add('check');
     svg.appendChild(this.svgCheck);
-    line(this.svgCheck, size[0] * 0.3, size[1] * 0.4, size[0] * 0.5, size[1] * 0.7, options);
-    line(this.svgCheck, size[0] * 0.5, size[1] * 0.7, size[0] + 5, -5, options);
+    this.line(this.svgCheck, size[0] * 0.3, size[1] * 0.4, size[0] * 0.5, size[1] * 0.7, options);
+    this.line(this.svgCheck, size[0] * 0.5, size[1] * 0.7, size[0] + 5, -5, options);
     this.refreshCheckVisibility();
   }
 

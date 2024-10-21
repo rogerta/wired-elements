@@ -1,6 +1,5 @@
 import { css, TemplateResult, html, PropertyValues } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
-import { rectangle, polygon } from './wired-lib';
 import { WiredBase, BaseCSS, Point } from './wired-base';
 import { WiredItem } from './wired-item';
 
@@ -185,14 +184,14 @@ export class WiredCombo extends WiredBase {
     const textBounds = this.textPanel.getBoundingClientRect();
     const options = this.options();
     this.dropPanel.style.minHeight = textBounds.height + 'px';
-    rectangle(svg, 0, 0, textBounds.width, textBounds.height, options);
+    this.rectangle(svg, 0, 0, textBounds.width, textBounds.height, options);
     const dropx = textBounds.width - 4;
-    rectangle(svg, dropx, 0, 34, textBounds.height, options);
+    this.rectangle(svg, dropx, 0, 34, textBounds.height, options);
     const dropOffset = Math.max(0, Math.abs((textBounds.height - 24) / 2));
 
     options.fill = '#000';
     options.fillStyle = 'solid';
-    const poly = polygon(svg, [
+    const poly = this.polygon(svg, [
       [dropx + 8, 5 + dropOffset],
       [dropx + 26, 5 + dropOffset],
       [dropx + 17, dropOffset + Math.min(textBounds.height, 18)]

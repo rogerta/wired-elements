@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { rectangle } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
@@ -104,7 +103,7 @@ export class WiredTextarea extends WiredBase {
 
   protected draw(svg: SVGSVGElement, size: Point) {
     const options = this.options();
-    rectangle(svg, 4, 4, size[0] - 4, size[1] - 4, options);
+    this.rectangle(svg, 4, 4, size[0] - 4, size[1] - 4, options);
   }
 
   private refire(event: Event) {

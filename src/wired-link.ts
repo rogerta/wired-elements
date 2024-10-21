@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { line } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
@@ -74,8 +73,8 @@ export class WiredLink extends WiredBase {
     const options = this.options();
 
     for (let i = 0; i < elev; i++) {
-      line(svg, 0, s.height + (i * 2) - 2, s.width, s.height + (i * 2) - 2, options);
-      line(svg, 0, s.height + (i * 2) - 2, s.width, s.height + (i * 2) - 2, options);
+      this.line(svg, 0, s.height + (i * 2) - 2, s.width, s.height + (i * 2) - 2, options);
+      this.line(svg, 0, s.height + (i * 2) - 2, s.width, s.height + (i * 2) - 2, options);
     }
   }
 }

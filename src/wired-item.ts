@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { rectangle } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -99,6 +98,6 @@ export class WiredItem extends WiredBase {
     options.stroke = 'none';
     // NOTE: fill is hard coded, but actually colour set via css.
     options.fill = '#000';
-    rectangle(svg, 0, 0, size[0], size[1], options);
+    this.rectangle(svg, 0, 0, size[0], size[1], options);
   }
 }

@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { rectangle, line } from './wired-lib';
 import { css, TemplateResult, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -54,18 +53,18 @@ export class WiredCard extends WiredBase {
 
     const options = this.options();
     if (this.fill && this.fill.trim()) {
-      const f = rectangle(svg, 2, 2, s.width - 4, s.height - 4, {...options, stroke: 'none', fill: this.fill});
+      const f = this.rectangle(svg, 2, 2, s.width - 4, s.height - 4, {...options, stroke: 'none', fill: this.fill});
       f.classList.add('cardFill');
       svg.style.setProperty('--wired-card-background-fill', this.fill.trim());
     }
 
-    rectangle(svg, 2, 2, s.width - 4, s.height - 4, options);
+    this.rectangle(svg, 2, 2, s.width - 4, s.height - 4, options);
 
     for (let i = 1; i < elev; i++) {
-      (line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
+      (this.line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
+      (this.line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
+      (this.line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
+      (this.line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
     }
   }
 }

@@ -1,5 +1,4 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { rectangle } from './wired-lib';
 import { css, TemplateResult, html, CSSResultArray, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -201,6 +200,6 @@ export class WiredListbox extends WiredBase {
 
   protected draw(svg: SVGSVGElement, size: Point) {
     const options = this.options();
-    rectangle(svg, 0, 0, size[0], size[1], options);
+    this.rectangle(svg, 0, 0, size[0], size[1], options);
   }
 }
