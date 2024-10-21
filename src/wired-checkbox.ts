@@ -49,10 +49,10 @@ export class WiredCheckbox extends WiredBase {
         stroke: var(--wired-checkbox-icon-color, currentColor);
         stroke-width: var(--wired-checkbox-default-swidth, 0.7);
       }
-      g path {
+      .check path {
         stroke-width: 2.5;
       }
-      #container.focused {
+      #container.focused, #container:active {
         --wired-checkbox-default-swidth: 1.5;
       }
       `
@@ -94,6 +94,7 @@ export class WiredCheckbox extends WiredBase {
     const options = this.options();
     rectangle(svg, 0, 0, size[0], size[1], options);
     this.svgCheck = svgNode('g');
+    this.svgCheck.classList.add('check');
     svg.appendChild(this.svgCheck);
     line(this.svgCheck, size[0] * 0.3, size[1] * 0.4, size[0] * 0.5, size[1] * 0.7, options);
     line(this.svgCheck, size[0] * 0.5, size[1] * 0.7, size[0] + 5, -5, options);
