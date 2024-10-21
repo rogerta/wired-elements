@@ -68,7 +68,7 @@ export class WiredItem extends WiredBase {
       }
       svg path {
         stroke: var(--wired-item-selected-bg, #000);
-        stroke-width: 2.75;
+        stroke-width: 4;
         fill: transparent;
         transition: transform 0.05s ease;
       }
