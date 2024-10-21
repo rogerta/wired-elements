@@ -35,9 +35,9 @@ path {
 export abstract class WiredBase extends LitElement {
   @query('svg') protected svg?: SVGSVGElement;
 
-  protected lastSize: Point = [0, 0];
-  protected seed = randomSeed();
-  protected ro = new ResizeObserver(_ => this.wiredRender());
+  private lastSize: Point = [0, 0];
+  private seed = randomSeed();
+  private ro = new ResizeObserver(_ => this.wiredRender());
 
   firstUpdated() {
     this.ro.observe(this);
@@ -69,7 +69,10 @@ export abstract class WiredBase extends LitElement {
     return {seed: this.seed};
   }
 
-  protected abstract canvasSize(): Point;
+  // Derived classes should override these two methods as needed.
+  protected canvasSize() {
+    return this.lastSize;
+  }
   protected abstract draw(svg: SVGSVGElement, size: Point): void;
 }
 

@@ -79,7 +79,7 @@ export class WiredFab extends WiredBase {
       const size = this.button.getBoundingClientRect();
       return [size.width, size.height];
     }
-    return this.lastSize;
+    return super.canvasSize();
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {

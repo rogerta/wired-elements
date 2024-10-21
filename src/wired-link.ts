@@ -62,7 +62,7 @@ export class WiredLink extends WiredBase {
       const h = size.height + ((elev - 1) * 2);
       return [w, h];
     }
-    return this.lastSize;
+    return super.canvasSize();
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
