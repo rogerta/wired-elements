@@ -58,7 +58,7 @@ export class WiredCombo extends WiredBase {
 
       .inline {
         display: inline-block;
-        vertical-align: top
+        vertical-align: top;
       }
 
       .hidden {
@@ -74,6 +74,11 @@ export class WiredCombo extends WiredBase {
       #dropPanel {
         width: 34px;
         cursor: pointer;
+      }
+
+      /* This removes the transparent added by BaseCSS */
+      path {
+        fill: inherit;
       }
 
       #card {
@@ -184,12 +189,14 @@ export class WiredCombo extends WiredBase {
     const dropx = textBounds.width - 4;
     rectangle(svg, dropx, 0, 34, textBounds.height, options);
     const dropOffset = Math.max(0, Math.abs((textBounds.height - 24) / 2));
+
+    options.fill = '#000';
+    options.fillStyle = 'solid';
     const poly = polygon(svg, [
       [dropx + 8, 5 + dropOffset],
       [dropx + 26, 5 + dropOffset],
       [dropx + 17, dropOffset + Math.min(textBounds.height, 18)]
     ], options);
-    poly.style.fill = 'currentColor';
     poly.style.pointerEvents = this.disabled ? 'none' : 'auto';
     poly.style.cursor = 'pointer';
   }
