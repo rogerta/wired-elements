@@ -1,4 +1,4 @@
-import { css, TemplateResult, html, PropertyValues } from 'lit';
+import { css, html, PropertyValues } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { WiredBase, BaseCSS, Point } from './wired-base';
 import { WiredItem } from './wired-item';
@@ -95,7 +95,7 @@ export class WiredCombo extends WiredBase {
     `];
   }
 
-  render(): TemplateResult {
+  render() {
     return html`
     <div id="container" @click="${this.onCombo}">
       <div id="textPanel" class="inline">
