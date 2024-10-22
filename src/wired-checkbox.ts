@@ -1,15 +1,13 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
 import { svgNode } from './wired-lib';
-import { css, TemplateResult, html } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { css, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('wired-checkbox')
 export class WiredCheckbox extends WiredBase {
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
-  @state() private focused = false;
-
-  @query('input') private input?: HTMLInputElement;
+  @property({ type: Number, reflect: true }) tabIndex = 0;
 
   private svgCheck?: SVGElement;
 
@@ -18,8 +16,13 @@ export class WiredCheckbox extends WiredBase {
       BaseCSS,
       css`
       :host {
-        display: inline-block;
+        display: inline-flex;
         font-family: inherit;
+        position: relative;
+        user-select: none;
+        cursor: pointer;
+        flex-direction: row;
+        min-height: 24px;
       }
       :host([disabled]) {
         opacity: 0.6 !important;
@@ -30,20 +33,9 @@ export class WiredCheckbox extends WiredBase {
         background: rgba(0, 0, 0, 0.07);
       }
 
-      #container {
-        display: flex;
-        flex-direction: row;
-        position: relative;
-        user-select: none;
-        min-height: 24px;
-        cursor: pointer;
-      }
       span {
-        margin-left: 1.5ex;
+        margin-left: 24px;
         line-height: 24px;
-      }
-      input {
-        opacity: 0;
       }
       path {
         stroke: var(--wired-checkbox-icon-color, currentColor);
@@ -52,38 +44,30 @@ export class WiredCheckbox extends WiredBase {
       .check path {
         stroke-width: 2.5;
       }
-      #container.focused, #container:active {
+      :host(:focus) {
+        outline: none;
+      }
+      :host(:focus) path {
         --wired-checkbox-default-swidth: 1.5;
       }
       `
     ];
   }
 
-  focus() {
-    if (this.input) {
-      this.input.focus();
-    } else {
-      super.focus();
-    }
+  firstUpdated() {
+    super.firstUpdated();
+    this.addEventListener('click', _ => {
+      this.checked = !this.checked;
+      this.fire('change', { checked: this.checked });
+    })
   }
 
-  render(): TemplateResult {
+  render() {
     this.refreshCheckVisibility();
     return html`
-    <label id="container" class="${this.focused ? 'focused' : ''}">
-      <input type="checkbox" .checked="${this.checked}" ?disabled="${this.disabled}"
-        @change="${this.onChange}"
-        @focus="${() => this.focused = true}"
-        @blur="${() => this.focused = false}">
       <span><slot></slot></span>
       <div id="overlay"><svg></svg></div>
-    </label>
     `;
-  }
-
-  private onChange() {
-    this.checked = !this.checked;
-    this.fire('change', { checked: this.checked });
   }
 
   protected canvasSize(): Point {
