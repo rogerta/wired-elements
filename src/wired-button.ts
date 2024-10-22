@@ -1,5 +1,5 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { css, TemplateResult, html, CSSResultArray } from 'lit';
+import { css, html, CSSResultArray } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('wired-button')
@@ -36,6 +36,9 @@ export class WiredButton extends WiredBase {
         :host(:active) path {
           transform: scale(0.97) translate(1.5%, 1.5%);
         }
+        :host(:focus) {
+          outline: none;
+        }
         :host(:focus) path {
           stroke-width: 1.5;
         }
@@ -43,7 +46,7 @@ export class WiredButton extends WiredBase {
     ];
   }
 
-  render(): TemplateResult {
+  render() {
     return html`
       <slot></slot>
       <div id="overlay"><svg></svg></div>
