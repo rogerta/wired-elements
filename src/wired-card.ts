@@ -1,5 +1,5 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { css, TemplateResult, html } from 'lit';
+import { css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('wired-card')
@@ -27,7 +27,7 @@ export class WiredCard extends WiredBase {
     ];
   }
 
-  render(): TemplateResult {
+  render() {
     return html`
     <div id="overlay"><svg></svg></div>
     <div part="inner" style="position: relative;">
