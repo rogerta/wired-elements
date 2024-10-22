@@ -1,13 +1,12 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
 import { css, TemplateResult, html, CSSResultArray } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('wired-button')
 export class WiredButton extends WiredBase {
   @property({ type: Number }) elevation = 1;
   @property({ type: Boolean, reflect: true }) disabled = false;
-
-  @query('button') private button!: HTMLButtonElement;
+  @property({ type: Number, reflect: true }) tabIndex = 0;
 
   static get styles(): CSSResultArray {
     return [
@@ -15,40 +14,30 @@ export class WiredButton extends WiredBase {
       css`
         :host {
           display: inline-block;
-          font-size: 14px;
+          font-size: 0.9rem;
+          position: relative;
+          user-select: none;
+          background: none;
+          cursor: pointer;
+          letter-spacing: 0.08rem;
+          text-transform: uppercase;
+          text-align: center;
+          padding: 0.6rem;
         }
         path {
           transition: transform 0.05s ease;
         }
-        button {
-          position: relative;
-          user-select: none;
-          border: none;
-          background: none;
-          font-family: inherit;
-          font-size: inherit;
-          cursor: pointer;
-          letter-spacing: 1.25px;
-          text-transform: uppercase;
-          text-align: center;
-          padding: 10px;
-          color: inherit;
-          outline: none;
-        }
-        button[disabled] {
+        :host([disabled]) {
           opacity: 0.6 !important;
           background: rgba(0, 0, 0, 0.07);
           cursor: default;
           pointer-events: none;
         }
-        button:active path {
+        :host(:active) path {
           transform: scale(0.97) translate(1.5%, 1.5%);
         }
-        button:focus path {
+        :host(:focus) path {
           stroke-width: 1.5;
-        }
-        button::-moz-focus-inner {
-          border: 0;
         }
       `
     ];
@@ -56,45 +45,34 @@ export class WiredButton extends WiredBase {
 
   render(): TemplateResult {
     return html`
-    <button ?disabled="${this.disabled}">
       <slot></slot>
       <div id="overlay"><svg></svg></div>
-    </button>
     `;
   }
 
-  focus() {
-    if (this.button) {
-      this.button.focus();
-    } else {
-      super.focus();
-    }
-  }
-
   protected canvasSize(): Point {
-    if (this.button) {
-      const size = this.button.getBoundingClientRect();
-      const elev = Math.min(Math.max(1, this.elevation), 5);
-      const w = size.width + ((elev - 1) * 2);
-      const h = size.height + ((elev - 1) * 2);
-      return [w, h];
-    }
-    return super.canvasSize();
+    const size = this.getBoundingClientRect();
+    const elev = Math.min(Math.max(1, this.elevation), 5);
+    const w = size.width + ((elev - 1) * 2);
+    const h = size.height + ((elev - 1) * 2);
+    return [w, h];
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
     const elev = Math.min(Math.max(1, this.elevation), 5);
-    const s = {
-      width: size[0] - ((elev - 1) * 2),
-      height: size[1] - ((elev - 1) * 2)
-    };
+    const width = size[0] - ((elev - 1) * 2);
+    const height = size[1] - ((elev - 1) * 2);
     const options = this.options();
-    this.rectangle(svg, 0, 0, s.width, s.height, options);
+    this.rectangle(svg, 0, 0, width, height, options);
+    let hoffset = 4;
+    let voffset = 0;
+    let opacity = 0.75;
     for (let i = 1; i < elev; i++) {
-      (this.line(svg, (i * 2), s.height + (i * 2), s.width + (i * 2), s.height + (i * 2), options)).style.opacity = `${(75 - (i * 10)) / 100}`;
-      (this.line(svg, s.width + (i * 2), s.height + (i * 2), s.width + (i * 2), i * 2, options)).style.opacity = `${(75 - (i * 10)) / 100}`;
-      (this.line(svg, (i * 2), s.height + (i * 2), s.width + (i * 2), s.height + (i * 2), options)).style.opacity = `${(75 - (i * 10)) / 100}`;
-      (this.line(svg, s.width + (i * 2), s.height + (i * 2), s.width + (i * 2), i * 2, options)).style.opacity = `${(75 - (i * 10)) / 100}`;
+      (this.line(svg, hoffset, height + voffset, width + hoffset - 4, height + voffset, options)).style.opacity = `${opacity}`;
+      (this.line(svg, width + hoffset - 4, height + voffset, width + hoffset - 4, voffset + 2, options)).style.opacity = `${opacity}`;
+      hoffset += 2;
+      voffset += 2;
+      opacity -= 0.15;
     }
   }
 }
