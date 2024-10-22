@@ -39,7 +39,7 @@ export class WiredCombo extends WiredBase {
         outline: none;
       }
 
-      :host(.wired-disabled) {
+      :host([disabled]) {
         opacity: 0.5 !important;
         cursor: default;
         pointer-events: none;
@@ -113,7 +113,6 @@ export class WiredCombo extends WiredBase {
   }
 
   private refreshDisabledState() {
-    this.classList.toggle('wired-disabled', this.disabled);
     this.tabIndex = this.disabled ? -1 : +(this.getAttribute('tabindex') || 0);
   }
 
@@ -185,7 +184,7 @@ export class WiredCombo extends WiredBase {
     const options = this.options();
     this.dropPanel.style.minHeight = textBounds.height + 'px';
     this.rectangle(svg, 0, 0, textBounds.width, textBounds.height, options);
-    const dropx = textBounds.width - 4;
+    const dropx = textBounds.width - 6;
     this.rectangle(svg, dropx, 0, 34, textBounds.height, options);
     const dropOffset = Math.max(0, Math.abs((textBounds.height - 24) / 2));
 
