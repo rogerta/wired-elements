@@ -37,34 +37,21 @@ export class WiredCard extends WiredBase {
   }
 
   protected canvasSize(): Point {
-    const s = this.getBoundingClientRect();
-    const elev = Math.min(Math.max(1, this.elevation), 5);
-    const w = s.width + ((elev - 1) * 2);
-    const h = s.height + ((elev - 1) * 2);
-    return [w, h];
+    const bounds = this.getBoundingClientRect();
+    return this.expandForElevation(bounds, this.elevation);
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    const elev = Math.min(Math.max(1, this.elevation), 5);
-    const s = {
-      width: size[0] - ((elev - 1) * 2),
-      height: size[1] - ((elev - 1) * 2)
-    };
-
     const options = this.options();
+    const bounds = this.contractForElevation(size, this.elevation);
+
     if (this.fill && this.fill.trim()) {
-      const f = this.rectangle(svg, 2, 2, s.width - 4, s.height - 4, {...options, stroke: 'none', fill: this.fill});
+      const f = this.rectangle(svg, 0, 0, bounds[0], bounds[1], {...options, stroke: 'none', fill: this.fill});
       f.classList.add('cardFill');
       svg.style.setProperty('--wired-card-background-fill', this.fill.trim());
     }
 
-    this.rectangle(svg, 2, 2, s.width - 4, s.height - 4, options);
-
-    for (let i = 1; i < elev; i++) {
-      (this.line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (this.line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (this.line(svg, (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), s.height - 4 + (i * 2), options)).style.opacity = `${(85 - (i * 10)) / 100}`;
-      (this.line(svg, s.width - 4 + (i * 2), s.height - 4 + (i * 2), s.width - 4 + (i * 2), i * 2, options)).style.opacity = `${(85 - (i * 10)) / 100}`;
-    }
+    this.rectangle(svg, 0, 0, bounds[0], bounds[1], options);
+    this.drawElevation(svg, 0, 0, bounds[0], bounds[1], this.elevation, options);
   }
 }

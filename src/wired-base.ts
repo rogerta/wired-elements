@@ -72,6 +72,47 @@ export abstract class WiredBase extends LitElement {
     fireEvent(this, name, detail);
   }
 
+  /**
+   * Expands `bounds` to account for the evelation.
+   *
+   * @param bounds The rectangle to expand.
+   * @param elevation The amount of elevation.
+   * @returns The new width and height represented as a Point.
+   */
+  protected expandForElevation(bounds: DOMRect, elevation: number): Point {
+    const elev = Math.min(Math.max(1, elevation), 5);
+    const w = bounds.width + ((elev - 1) * 2);
+    const h = bounds.height + ((elev - 1) * 2);
+    return [w, h];
+  }
+
+  /**
+   * Contracts `bounds` to account for the evelation.
+   *
+   * @param bounds The rectangle to expand.
+   * @param elevation The amount of elevation.
+   * @returns The new width and height represented as a Point.
+   */
+  protected contractForElevation(bounds: Point, elevation: number): Point {
+    const elev = Math.min(Math.max(1, elevation), 5);
+    const w = bounds[0] - ((elev - 1) * 2);
+    const h = bounds[1] - ((elev - 1) * 2);
+    return [w, h];
+  }
+
+  protected drawElevation(svg: SVGSVGElement, _x: number, _y: number, width: number, height: number, elevation: number, options: Options) {
+    let hoffset = 4;
+    let voffset = 0;
+    let opacity = 0.75;
+    for (let i = 1; i < elevation; i++) {
+      (this.line(svg, hoffset, height + voffset, width + hoffset - 4, height + voffset, options)).style.opacity = `${opacity}`;
+      (this.line(svg, width + hoffset - 4, height + voffset, width + hoffset - 4, voffset + 2, options)).style.opacity = `${opacity}`;
+      hoffset += 2;
+      voffset += 2;
+      opacity -= 0.15;
+    }
+  }
+
   protected options(): Options {
     return {seed: this.seed};
   }

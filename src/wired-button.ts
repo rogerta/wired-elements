@@ -51,28 +51,14 @@ export class WiredButton extends WiredBase {
   }
 
   protected canvasSize(): Point {
-    const size = this.getBoundingClientRect();
-    const elev = Math.min(Math.max(1, this.elevation), 5);
-    const w = size.width + ((elev - 1) * 2);
-    const h = size.height + ((elev - 1) * 2);
-    return [w, h];
+    const bounds = this.getBoundingClientRect();
+    return this.expandForElevation(bounds, this.elevation);
   }
 
   protected draw(svg: SVGSVGElement, size: Point) {
-    const elev = Math.min(Math.max(1, this.elevation), 5);
-    const width = size[0] - ((elev - 1) * 2);
-    const height = size[1] - ((elev - 1) * 2);
     const options = this.options();
-    this.rectangle(svg, 0, 0, width, height, options);
-    let hoffset = 4;
-    let voffset = 0;
-    let opacity = 0.75;
-    for (let i = 1; i < elev; i++) {
-      (this.line(svg, hoffset, height + voffset, width + hoffset - 4, height + voffset, options)).style.opacity = `${opacity}`;
-      (this.line(svg, width + hoffset - 4, height + voffset, width + hoffset - 4, voffset + 2, options)).style.opacity = `${opacity}`;
-      hoffset += 2;
-      voffset += 2;
-      opacity -= 0.15;
-    }
+    const bounds = this.contractForElevation(size, this.elevation);
+    this.rectangle(svg, 0, 0, bounds[0], bounds[1], options);
+    this.drawElevation(svg, 0, 0, bounds[0], bounds[1], this.elevation, options);
   }
 }
