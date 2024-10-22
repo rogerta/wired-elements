@@ -1,5 +1,5 @@
 import { WiredBase, BaseCSS, Point } from './wired-base';
-import { css, html, CSSResultArray } from 'lit';
+import { css, html, CSSResultArray, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('wired-button')
@@ -44,6 +44,12 @@ export class WiredButton extends WiredBase {
         }
       `
     ];
+  }
+
+  protected updated(changed: PropertyValues): void {
+    if (changed.has('disabled')) {
+      this.tabIndex = this.disabled ? -1 : +(this.getAttribute('tabindex') || 0);
+    }
   }
 
   render() {
