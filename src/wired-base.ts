@@ -1,10 +1,9 @@
 import { LitElement, css } from 'lit';
 import { query } from 'lit/decorators.js';
-import roughjs from 'roughjs';
+import rough from '@rogerta/roughjs';
 
-import { Options, Point, defaultConfig, fireEvent, randomSeed, arc, ellipse, line, polygon, rectangle } from './wired-lib.js';
-import { RoughSVG } from 'roughjs/bin/svg.js';
-export { Point } from './wired-lib.js';
+import { Options, Point, defaultConfig, fireEvent, randomSeed, arc, ellipse, line, polygon, rectangle, RoughSVG } from './wired-lib.js';
+export { Point, RoughSVG } from './wired-lib.js';
 
 export const BaseCSS = css`
 :host {
@@ -50,7 +49,7 @@ export abstract class WiredBase extends LitElement {
   wiredRender(force = false) {
     if (this.svg) {
       if (!this.rough) {
-        this.rough = roughjs.svg(this.svg, defaultConfig());
+        this.rough = rough.svg(this.svg, defaultConfig());
       }
 
       const size = this.canvasSize();

@@ -1,15 +1,18 @@
 {
   "name": "@rogerta/wired-elements",
-  "version": "3.0.1",
   "description": "Collection of hand-drawn sketchy web components",
+  "version": "4.0.0",
+
   "type": "module",
   "main": "lib/wired-elements.js",
   "module": "lib/wired-elements.js",
   "types": "lib/wired-elements.d.ts",
+  "exports": {
+    ".": "lib/wired-elements.js"
+  },
+
   "scripts": {
-    "build": "rm -rf lib && tsc",
-    "pub": "npm publish --access public",
-    "start": "web-dev-server --node-resolve --watch --port 9201"
+    "build": "rm -rf lib && tsc"
   },
   "repository": {
     "type": "git",
@@ -24,11 +27,10 @@
     "hand drawn",
     "wireframe"
   ],
-  "author": "Preet Shihn <preetshihn@gmail.com> (https://twitter.com/preetster)",
+  "author": "Roger Tawa <roger@tawacentral.net>",
+  "originalAuthor": "Preet Shihn <preetshihn@gmail.com>",
   "contributors": [
-    {
-      "name": "Roger Tawa <rogerta@gmail.com>"
-    }
+    "Preet Shihn <preetshihn@gmail.com>"
   ],
   "license": "MIT",
   "bugs": {
@@ -36,11 +38,11 @@
   },
   "homepage": "https://github.com/rogerta/wired-elements",
   "devDependencies": {
-    "@web/dev-server": "^0.4.6",
-    "typescript": "^5.6.3"
+    "typescript": "6.0.3",
+    "vite": "8.0.11"
   },
   "dependencies": {
-    "lit": "3.2.1",
-    "roughjs": "4.6.6"
+    "lit": "3.3.2",
+    "@rogerta/roughjs": "5.0.8"
   }
 }

@@ -1,9 +1,10 @@
-import { Config, Options } from 'roughjs/bin/core';
-export { Options } from 'roughjs/bin/core';
-import { RoughSVG } from 'roughjs/bin/svg';
-import roughjs from 'roughjs';
+import rough from '@rogerta/roughjs';
 
 export type Point = [number, number];
+export type RoughCanvas = ReturnType<typeof rough.canvas>;
+export type RoughSVG = ReturnType<typeof rough.svg>;
+export type Config = NonNullable<Parameters<typeof rough.generator>[0]>;
+export type Options = NonNullable<Config['options']>;
 
 export function svgNode(tagName: string): SVGElement {
   return document.createElementNS('http://www.w3.org/2000/svg', tagName);
@@ -35,7 +36,7 @@ export function defaultConfig(): Config {
 }
 
 export function randomSeed() {
-  return roughjs.newSeed();
+  return rough.newSeed();
 }
 
 export function fireEvent(e: HTMLElement, name: string, detail?: any) {

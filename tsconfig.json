@@ -1,28 +1,29 @@
 {
   "compilerOptions": {
-    "target": "es2021",
-    "module": "Preserve",
-    "moduleResolution": "Bundler",
+    "target": "es2023",
+    "module": "esnext",
     "lib": [
-      "esnext",
+      "es2023",
       "dom"
     ],
-    "declaration": true,
-    "outDir": "./lib",
-    "baseUrl": ".",
-    "strict": true,
-    "esModuleInterop": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
+    "types": ["vite/client"],
+    "skipLibCheck": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "skipLibCheck": true
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "declaration": true,
+    "removeComments": true,
+    "rootDir": "./src",
+    "outDir": "./lib",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
   },
-  "include": [
-    "src/**/*.ts"
-  ]
+  "include": ["src"]
 }

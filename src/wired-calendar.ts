@@ -1,8 +1,7 @@
-import { defaultConfig, rectangle, line, ellipse, fireEvent, randomSeed } from './wired-lib';
+import { defaultConfig, rectangle, line, ellipse, fireEvent, randomSeed, RoughSVG } from './wired-lib.js';
 import { css, TemplateResult, html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import roughjs from 'roughjs';
-import { RoughSVG } from 'roughjs/bin/svg';
+import rough from '@rogerta/roughjs';
 
 interface AreaSize {
   width: number;
@@ -258,7 +257,7 @@ export class WiredCalendar extends LitElement {
     this.setAttribute('role', 'dialog');
 
     const svg = (this.renderRoot.querySelector('#svg') as any) as SVGSVGElement;
-    this.rough = roughjs.svg(svg, defaultConfig());
+    this.rough = rough.svg(svg, defaultConfig());
   }
 
   updated(changed?: PropertyValues) {

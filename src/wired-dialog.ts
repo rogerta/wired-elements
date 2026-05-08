@@ -1,4 +1,4 @@
-import { css, TemplateResult, html, LitElement } from 'lit';
+import { css, html, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { WiredCard } from './wired-card';
 
@@ -76,7 +76,7 @@ export class WiredDialog extends LitElement {
     `;
   }
 
-  render(): TemplateResult {
+  render() {
     return html`
     <div id="container">
       <div id="overlay" class="vertical layout">

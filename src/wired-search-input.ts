@@ -8,7 +8,7 @@ export class WiredSearchInput extends WiredBase {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: String }) placeholder = '';
   @property({ type: String }) autocomplete = '';
-  @property({ type: String }) autocorrect = '';
+  @property({ type: Boolean }) autocorrect = false;
   @property({ type: Boolean }) autofocus = false;
 
   @query('input') private textInput?: HTMLInputElement;
@@ -84,7 +84,7 @@ export class WiredSearchInput extends WiredBase {
     return html`
     <input type="search" placeholder="${this.placeholder}" ?disabled="${this.disabled}"
       autocomplete="${this.autocomplete}" ?autofocus="${this.autofocus}"
-      autocapitalize="${this.autocapitalize}" autocorrect="${this.autocorrect}"
+      autocapitalize="${this.autocapitalize}" ?autocorrect="${this.autocorrect}"
       @change="${this.refire}" @input="${this.refire}">
     <div id="overlay">
       <svg></svg>
