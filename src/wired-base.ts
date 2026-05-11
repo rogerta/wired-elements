@@ -2,8 +2,8 @@ import { LitElement, css } from 'lit';
 import { query } from 'lit/decorators.js';
 import rough from '@rogerta/roughjs';
 
-import { Options, Point, defaultConfig, fireEvent, randomSeed, arc, ellipse, line, polygon, rectangle, RoughSVG } from './wired-lib.js';
-export { Point, RoughSVG } from './wired-lib.js';
+import { type Point, type RoughSVG, Options, defaultConfig, fireEvent, randomSeed, arc, ellipse, line, polygon, rectangle } from './wired-lib.js';
+export type { Point } from './wired-lib.js';
 
 export const BaseCSS = css`
 :host {
@@ -99,13 +99,23 @@ export abstract class WiredBase extends LitElement {
     return [w, h];
   }
 
-  protected drawElevation(svg: SVGSVGElement, _x: number, _y: number, width: number, height: number, elevation: number, options: Options) {
+  protected drawElevation(
+      svg: SVGSVGElement,
+      _x: number,
+      _y: number,
+      width: number,
+      height: number,
+      elevation: number,
+      options: Options) {
     let hoffset = 4;
     let voffset = 0;
     let opacity = 0.75;
     for (let i = 1; i < elevation; i++) {
-      (this.line(svg, hoffset, height + voffset, width + hoffset - 4, height + voffset, options)).style.opacity = `${opacity}`;
-      (this.line(svg, width + hoffset - 4, height + voffset, width + hoffset - 4, voffset + 2, options)).style.opacity = `${opacity}`;
+      (this.line(svg, hoffset, height + voffset, width + hoffset - 4,
+                 height + voffset, options)).style.opacity = `${opacity}`;
+      (this.line(svg, width + hoffset - 4, height + voffset,
+                 width + hoffset - 4, voffset + 2, options))
+                    .style.opacity = `${opacity}`;
       hoffset += 2;
       voffset += 2;
       opacity -= 0.15;
@@ -116,11 +126,24 @@ export abstract class WiredBase extends LitElement {
     return {seed: this.seed};
   }
 
-  protected rectangle(parent: SVGElement, x: number, y: number, width: number, height: number, options?: Options) {
-    return rectangle(this.rough!, parent, x + 2, y + 2, width - 4, height - 4, options);
+  protected rectangle(
+      parent: SVGElement,
+      x: number,
+      y: number,
+      width: number,
+      height: number,
+      options?: Options) {
+    return rectangle(this.rough!, parent, x + 2, y + 2, width - 4, height - 4,
+        options);
   }
 
-  protected line(parent: SVGElement, x1: number, y1: number, x2: number, y2: number, options?: Options) {
+  protected line(
+      parent: SVGElement,
+      x1: number,
+      y1: number,
+      x2: number,
+      y2: number,
+      options?: Options) {
     return line(this.rough!, parent, x1, y1, x2, y2, options);
   }
 
@@ -128,15 +151,30 @@ export abstract class WiredBase extends LitElement {
     return polygon(this.rough!, parent, vertices, options);
   }
 
-  protected ellipse(parent: SVGElement, x: number, y: number, width: number, height: number, options?: Options) {
+  protected ellipse(
+      parent: SVGElement,
+      x: number,
+      y: number,
+      width: number,
+      height: number,
+      options?: Options) {
     return ellipse(this.rough!, parent, x, y, width, height, options);
   }
 
-  protected arc(parent: SVGElement, x: number, y: number, width: number, height: number, start: number, stop: number, options?: Options) {
+  protected arc(
+      parent: SVGElement,
+      x: number,
+      y: number,
+      width: number,
+      height: number,
+      start: number,
+      stop: number,
+      options?: Options) {
     return arc(this.rough!, parent, x, y, width, height, start, stop, options);
   }
 
   // Derived classes should override these two methods as needed.
+
   protected canvasSize() {
     return this.lastSize;
   }

@@ -12,7 +12,8 @@
   },
 
   "scripts": {
-    "build": "rm -rf lib && tsc"
+    "build": "rm -rf lib && tsc",
+    "run": "vite"
   },
   "repository": {
     "type": "git",

@@ -1,11 +1,11 @@
-import { WiredBase, BaseCSS, Point } from './wired-base';
 import { css, html } from 'lit';
+import { WiredBase, BaseCSS, type Point } from './wired-base.js';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('wired-card')
 export class WiredCard extends WiredBase {
   @property({ type: Number }) elevation = 1;
-  @property({ type: String }) fill?: string;
+  @property() fill = '';
 
   static get styles() {
     return [
@@ -46,12 +46,20 @@ export class WiredCard extends WiredBase {
     const bounds = this.contractForElevation(size, this.elevation);
 
     if (this.fill && this.fill.trim()) {
-      const f = this.rectangle(svg, 0, 0, bounds[0], bounds[1], {...options, stroke: 'none', fill: this.fill});
+      const f = this.rectangle(svg, 0, 0, bounds[0], bounds[1],
+          {...options, stroke: 'none', fill: this.fill});
       f.classList.add('cardFill');
       svg.style.setProperty('--wired-card-background-fill', this.fill.trim());
     }
 
     this.rectangle(svg, 0, 0, bounds[0], bounds[1], options);
-    this.drawElevation(svg, 0, 0, bounds[0], bounds[1], this.elevation, options);
+    this.drawElevation(svg, 0, 0, bounds[0], bounds[1], this.elevation,
+        options);
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'wired-card': WiredCard
   }
 }
